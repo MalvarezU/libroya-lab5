@@ -57,7 +57,24 @@
 - [ ] Logs no imprimen secretos.
 - [ ] Flujo completo de compra funciona desplegado.
 
-## 5. URLs de entrega
+## URLs de entrega
 
-- Frontend: `<pendiente>`
-- Backend: `<pendiente>`
+- Frontend: https://frontend-production-c1fae6c3.up.railway.app
+- Backend: https://libroya-lab5-production.up.railway.app
+- Repositorio: https://github.com/MalvarezU/libroya-lab5
+
+## Despliegue realizado
+
+Para evitar el problema de Railpack con la raíz del monorepo, los servicios se
+desplegaron desde sus subcarpetas con el CLI:
+
+```bash
+# Backend
+railway up ./server --path-as-root --service libroya-lab5 --ci
+
+# Frontend
+railway up ./web --path-as-root --service frontend --ci
+```
+
+La fuente GitHub del backend se desconectó para evitar redeploys automáticos
+fallidos desde la raíz. Para publicar cambios nuevos, repetir los comandos.

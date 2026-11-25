@@ -9,19 +9,19 @@
 | Gestión de catálogo y stock | **PASS** | CRUD + reserva/cancelación transaccional |
 | Gestión de envíos | **PASS** | Shipment + carrier/tracking + Kanban |
 | Descarga de e-books comprados | **PASS** | Endpoint de entitlement + demo edition; pruebas 200/403 |
-| URL frontend y backend en Railway | **PENDIENTE** | `docs/railway.md` |
+| URL frontend y backend en Railway | **PASS** | https://frontend-production-c1fae6c3.up.railway.app · https://libroya-lab5-production.up.railway.app |
 | `PRD.md` | **PASS** | `docs/PRD.md` |
 | Suite TestSprite con evidencia | **PENDIENTE** | `docs/test-plan.md` |
-| Informe de resultados | **PARCIAL** | `docs/informe-resultados.md` |
+| Informe de resultados | **PASS parcial** | `docs/informe-resultados.md`; falta agregar evidencia TestSprite |
 | Reflexión individual | **BORRADOR** | `docs/reflexion-individual.md` |
 | Pruebas automatizadas | **PASS** | 78/78 backend; build/tsc/lint PASS |
 | Revisión de seguridad | **PASS con deudas aceptadas** | `docs/security-review.md` |
 
 ## Cierre final
 
-1. Terminar descarga digital.
-2. Commit + push.
-3. Desplegar Railway.
+1. Terminar descarga digital. ✅
+2. Commit + push. ✅
+3. Desplegar Railway. ✅
 4. Ejecutar TestSprite.
 5. Actualizar informe, reflexión y URLs.
 6. Revisar este checklist contra la evidencia final.

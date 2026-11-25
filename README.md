@@ -72,8 +72,9 @@ El laboratorio no recibió archivos comerciales de los libros. El backend genera
 
 ## Despliegue (Railway)
 
-- Frontend: https://<pendiente>.up.railway.app
-- Backend: https://<pendiente>.up.railway.app
+- Frontend: https://frontend-production-c1fae6c3.up.railway.app
+- Backend: https://libroya-lab5-production.up.railway.app
+- Repositorio: https://github.com/MalvarezU/libroya-lab5
 - Health check backend: `GET /health`
 
 ## Entregables

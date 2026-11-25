@@ -2,13 +2,13 @@
 
 ## 1. Entorno de prueba
 
-- Fecha: 24 de noviembre de 2026.
-- Frontend local: `http://localhost:3000`.
-- Backend local: `http://localhost:4000`.
+- Fecha: 25 de noviembre de 2026.
+- Frontend: https://frontend-production-c1fae6c3.up.railway.app
+- Backend: https://libroya-lab5-production.up.railway.app
 - Base de datos: MongoDB Atlas (replica set).
 - Pagos: PayPal Sandbox.
 - Repositorio: https://github.com/MalvarezU/libroya-lab5 (privado).
-- Commit evaluado: `d4128c4` + ajuste de proxy pendiente de commit.
+- Commit evaluado: `e16356d`.
 
 ## 2. Pruebas automatizadas
 
@@ -47,6 +47,11 @@ Verificaciones adicionales:
 | M14 | WebSocket de operador recibe cambio de estado | PASS |
 | M15 | Build de producción | PASS |
 | M16 | Descarga de e-book pagado / rechazo a otro usuario | PASS: 200 con demo edition / 403 |
+| M17 | Railway backend `/health` y catálogo | PASS: HTTP 200, 12 libros |
+| M18 | Railway frontend y rutas internas | PASS: `/`, `/login`, `/cart`, `/kitchen`, `/orders` responden 200 |
+| M19 | CORS desplegado | PASS: preflight 204 con origen exacto del frontend |
+| M20 | Descarga desplegada | PASS: HTTP 200 con `Content-Disposition` |
+| M21 | WebSocket seguro (WSS) | PASS: conexión y evento `order:status_changed` recibidos |
 
 Evidencia de pago (identificadores opacos, sin credenciales):
 
@@ -71,12 +76,10 @@ Evidencia de pago (identificadores opacos, sin credenciales):
 
 ## 5. Pendientes de entrega
 
-- [ ] Desplegar frontend y backend en Railway.
-- [ ] Configurar HTTPS, CORS y WSS desplegados.
 - [ ] Ejecutar TestSprite contra la URL pública.
 - [ ] Registrar capturas/logs y tasa de éxito de TestSprite.
 - [ ] Personalizar la reflexión individual.
 
 ## 6. Decisión de liberación
 
-**Todavía no liberar.** El comportamiento local está verificado, pero faltan las URLs públicas de Railway y la evidencia de TestSprite exigidas por la guía.
+**Listo para revisión funcional.** Las URLs públicas, HTTPS, CORS, WSS, pagos, envíos y descarga funcionan. Falta únicamente la evidencia de TestSprite y personalizar la reflexión individual.

@@ -36,6 +36,8 @@ Revisión estática y pruebas locales del flujo de autenticación, pedidos, pago
 - Captura de pedido ajeno: `403`.
 - Captura repetida: un solo pago (requiere revalidar no regresión tras el fix).
 - WebSocket de operador: evento de estado recibido.
+- WSS desplegado en Railway: PASS.
+- CORS desplegado: PASS con origen exacto del frontend.
 - Build, TypeScript y lint: PASS.
 
 ## Pendiente
