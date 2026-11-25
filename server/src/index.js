@@ -10,10 +10,12 @@ const http = require('http');
 const { connectDB } = require('./db');
 const { initSocket } = require('./socket');
 const errorHandler = require('./middleware/errorHandler');
+const { startExpireOrdersJob } = require('./jobs/expireOrders');
 
 const authRoutes = require('./routes/auth');
 const bookRoutes = require('./routes/books');
 const orderRoutes = require('./routes/orders');
+const shipmentRoutes = require('./routes/shipments');
 const paymentRoutes = require('./routes/payments');
 
 const app = express();
@@ -38,6 +40,7 @@ app.get('/health', (req, res) => {
 app.use('/api/auth', authRoutes);
 app.use('/api/books', bookRoutes);
 app.use('/api/orders', orderRoutes);
+app.use('/api/shipments', shipmentRoutes);
 app.use('/api/payments', paymentRoutes);
 
 app.use(errorHandler);
@@ -47,6 +50,7 @@ initSocket(app, httpServer);
 
 async function main() {
   await connectDB();
+  startExpireOrdersJob();
   if (config.seed) {
     const { seed } = require('./seed');
     await seed();

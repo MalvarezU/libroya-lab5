@@ -1,35 +1,50 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { Package, MapPin, CreditCard, Calendar } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
+import { Package, MapPin, CreditCard, Calendar, Truck, Hash, PackageCheck } from "lucide-react";
 import { api } from "@/lib/api";
 import { useAuth } from "@/lib/auth";
 import { getSocket } from "@/lib/socket";
 import OrderCard from "@/components/OrderCard";
 import StatusTimeline from "@/components/StatusTimeline";
-import type { Order } from "@/lib/types";
+import type { Order, Shipment } from "@/lib/types";
+
+const SHIPMENT_STATUS_LABEL: Record<Shipment["status"], string> = {
+  PENDING: "Pendiente",
+  PREPARING: "En preparación",
+  SHIPPED: "Enviado",
+  DELIVERED: "Entregado",
+};
 
 export default function OrderDetailClient({ id }: { id: string }) {
   const { token } = useAuth();
   const [order, setOrder] = useState<Order | null>(null);
+  const [shipment, setShipment] = useState<Shipment | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const loadVersion = useRef(0);
 
   useEffect(() => {
     if (!id) return;
     let cancelled = false;
     const load = async () => {
-      try {
-        const data = await api.getOrder(id);
-        if (!cancelled) {
-          setOrder(data);
-          setError(null);
-        }
-      } catch (e: unknown) {
-        if (!cancelled) setError((e as { message?: string })?.message || "Error");
-      } finally {
-        if (!cancelled) setLoading(false);
+      const version = ++loadVersion.current;
+      const [orderResult, shipmentResult] = await Promise.allSettled([
+        api.getOrder(id),
+        api.getShipmentByOrder(id),
+      ]);
+      if (cancelled || version !== loadVersion.current) return;
+
+      if (orderResult.status === "rejected") {
+        setError((orderResult.reason as { message?: string })?.message || "Error");
+        setLoading(false);
+        return;
       }
+
+      setOrder(orderResult.value);
+      setShipment(shipmentResult.status === "fulfilled" ? shipmentResult.value : null);
+      setError(null);
+      setLoading(false);
     };
     load();
 
@@ -40,9 +55,7 @@ export default function OrderDetailClient({ id }: { id: string }) {
       if (payload?._id === id || payload?.id === id) refetch();
     };
     const onUpdated = (payload: Record<string, unknown>) => {
-      if (payload?._id === id || payload?.id === id) {
-        setOrder(payload as unknown as Order);
-      }
+      if (payload?._id === id || payload?.id === id) refetch();
     };
     socket.on("order:status_changed", onStatus);
     socket.on("order:updated", onUpdated);
@@ -81,6 +94,37 @@ export default function OrderDetailClient({ id }: { id: string }) {
         <h2 className="mb-4 font-display text-lg font-bold text-ink-950">Estado del pedido</h2>
         <StatusTimeline status={order.status} />
       </div>
+
+      {shipment && (
+        <div className="rounded-2xl border border-border bg-surface p-5 shadow-soft">
+          <h2 className="mb-3 font-display text-lg font-bold text-ink-950">Información de envío</h2>
+          <dl className="grid grid-cols-1 gap-3 text-sm sm:grid-cols-2">
+            <div className="flex items-start gap-2">
+              <Truck className="mt-0.5 h-4 w-4 text-accent" />
+              <div>
+                <dt className="text-ink-500">Transportista</dt>
+                <dd className="text-ink-950">{shipment.carrier || "Pendiente"}</dd>
+              </div>
+            </div>
+            <div className="flex items-start gap-2">
+              <Hash className="mt-0.5 h-4 w-4 text-accent" />
+              <div>
+                <dt className="text-ink-500">Código de seguimiento</dt>
+                <dd className="break-all font-mono text-ink-950">
+                  {shipment.trackingCode || "Pendiente"}
+                </dd>
+              </div>
+            </div>
+            <div className="flex items-start gap-2">
+              <PackageCheck className="mt-0.5 h-4 w-4 text-accent" />
+              <div>
+                <dt className="text-ink-500">Estado del envío</dt>
+                <dd className="text-ink-950">{SHIPMENT_STATUS_LABEL[shipment.status]}</dd>
+              </div>
+            </div>
+          </dl>
+        </div>
+      )}
 
       <div className="rounded-2xl border border-border bg-surface p-5 shadow-soft">
         <h2 className="mb-3 font-display text-lg font-bold text-ink-950">Artículos</h2>

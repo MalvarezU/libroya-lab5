@@ -7,13 +7,15 @@ import { useAuth } from "@/lib/auth";
 import { getSocket } from "@/lib/socket";
 import OrderCard from "@/components/OrderCard";
 import KanbanColumn from "@/components/KanbanColumn";
-import type { Order } from "@/lib/types";
+import ShipmentFormModal from "@/components/ShipmentFormModal";
+import type { Order, ShipmentTracking } from "@/lib/types";
 
 const COLUMNS: { status: Order["status"]; title: string }[] = [
   { status: "PAID", title: "Pagado" },
   { status: "PREPARING", title: "Preparando" },
   { status: "SHIPPED", title: "Enviado" },
   { status: "DELIVERED", title: "Entregado" },
+  { status: "CANCELLED", title: "Cancelado" },
 ];
 
 const NEXT: Record<Order["status"], Order["status"] | null> = {
@@ -22,6 +24,7 @@ const NEXT: Record<Order["status"], Order["status"] | null> = {
   PREPARING: "SHIPPED",
   SHIPPED: "DELIVERED",
   DELIVERED: null,
+  CANCELLED: null,
 };
 
 export default function KitchenPage() {
@@ -30,6 +33,8 @@ export default function KitchenPage() {
   const [orders, setOrders] = useState<Order[]>([]);
   const [error, setError] = useState<string | null>(null);
   const [flashIds, setFlashIds] = useState<Set<string>>(new Set());
+  const [advancingIds, setAdvancingIds] = useState<Set<string>>(new Set());
+  const [shippingOrder, setShippingOrder] = useState<Order | null>(null);
 
   useEffect(() => {
     if (loading) return;
@@ -59,6 +64,9 @@ export default function KitchenPage() {
       }
       return [o, ...prev];
     });
+    setShippingOrder((current) =>
+      current?._id === o._id && current.status !== o.status ? null : current
+    );
     flash(o._id);
   }, [flash]);
 
@@ -107,15 +115,43 @@ export default function KitchenPage() {
     };
   }, [token, user, upsert]);
 
+  const changeStatus = async (
+    order: Order,
+    status: Order["status"],
+    shipment?: ShipmentTracking
+  ) => {
+    setAdvancingIds((prev) => new Set(prev).add(order._id));
+    setError(null);
+    try {
+      const updated = await api.updateOrderStatus(order._id, status, shipment);
+      upsert(updated);
+    } finally {
+      setAdvancingIds((prev) => {
+        const next = new Set(prev);
+        next.delete(order._id);
+        return next;
+      });
+    }
+  };
+
   const advance = async (order: Order) => {
     const next = NEXT[order.status];
-    if (!next) return;
+    if (!next || advancingIds.has(order._id)) return;
+    if (next === "SHIPPED") {
+      setShippingOrder(order);
+      return;
+    }
     try {
-      const updated = await api.updateOrderStatus(order._id, next);
-      upsert(updated);
+      await changeStatus(order, next);
     } catch (e: unknown) {
       setError((e as { message?: string })?.message || "Transición inválida");
     }
+  };
+
+  const confirmShipment = async (shipment: ShipmentTracking) => {
+    if (!shippingOrder) return;
+    await changeStatus(shippingOrder, "SHIPPED", shipment);
+    setShippingOrder(null);
   };
 
   if (loading) return <p className="text-ink-500">Cargando...</p>;
@@ -139,13 +175,25 @@ export default function KitchenPage() {
               orders={colOrders}
               renderCard={(o) => (
                 <div className={flashIds.has(o._id) ? "animate-[fadeUp_400ms_ease-out] rounded-2xl ring-2 ring-accent ring-offset-2 ring-offset-canvas" : ""}>
-                  <OrderCard order={o} onAdvance={advance} />
+                  <OrderCard
+                    order={o}
+                    onAdvance={advance}
+                    advancing={advancingIds.has(o._id)}
+                  />
                 </div>
               )}
             />
           );
         })}
       </div>
+      {shippingOrder && (
+        <ShipmentFormModal
+          key={shippingOrder._id}
+          order={shippingOrder}
+          onCancel={() => setShippingOrder(null)}
+          onConfirm={confirmShipment}
+        />
+      )}
     </div>
   );
 }

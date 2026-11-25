@@ -2,11 +2,16 @@
   "name": "libreria-ia-server",
   "version": "1.0.0",
   "description": "Backend Express + Socket.IO de LibroYa",
+  "engines": {
+    "node": ">=22"
+  },
   "main": "src/index.js",
   "scripts": {
     "start": "node src/index.js",
     "dev": "node --watch src/index.js",
-    "seed": "node src/seed.js"
+    "seed": "node src/seed.js",
+    "test": "node --test",
+    "seed:operator": "node src/create-operator.js"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",

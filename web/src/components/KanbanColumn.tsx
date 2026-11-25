@@ -10,6 +10,7 @@ const STATUS_COLOR: Record<Order["status"], string> = {
   PREPARING: "from-accent-violet to-accent",
   SHIPPED: "from-warning to-danger",
   DELIVERED: "from-success to-success",
+  CANCELLED: "from-danger to-danger",
 };
 
 const STATUS_BG: Record<Order["status"], string> = {
@@ -18,6 +19,7 @@ const STATUS_BG: Record<Order["status"], string> = {
   PREPARING: "bg-accent-violet/10",
   SHIPPED: "bg-warning/10",
   DELIVERED: "bg-success/10",
+  CANCELLED: "bg-danger/10",
 };
 
 export default function KanbanColumn({

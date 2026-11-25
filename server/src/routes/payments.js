@@ -7,7 +7,7 @@ const { validate } = require('../middleware/validate');
 const router = Router();
 
 const captureSchema = z.object({
-  providerOrderId: z.string().optional(),
+  providerOrderId: z.string().trim().min(1).max(128).regex(/^[A-Za-z0-9_-]+$/).optional(),
 });
 
 router.use(authenticate);

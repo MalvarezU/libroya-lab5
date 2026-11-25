@@ -38,6 +38,18 @@ libreria-ia/
 Copiar `.env.example` a `server/.env` y completar. Variables del frontend van en
 `web/.env.local` (solo URLs públicas, jamás secretos).
 
+### Crear usuario operador
+
+```bash
+cd server
+OPERATOR_EMAIL=operador@demo.com \
+OPERATOR_PASSWORD=demo1234 \
+OPERATOR_NAME="Operador Demo" \
+npm run seed:operator
+```
+
+El script usa hash bcrypt y no guarda credenciales en el repositorio.
+
 ## Ejecución local
 
 ```bash
@@ -60,4 +72,13 @@ npm run dev        # http://localhost:3000
 
 ## Entregables
 
-Ver `docs/PRD.md`, `docs/informe-resultados.md` y `docs/reflexion-individual.md`.
+- API, modelos y autorización: `docs/api.md`
+- PRD: `docs/PRD.md`
+- Arquitectura: `docs/arquitectura.md`
+- Plan de pruebas: `docs/test-plan.md`
+- Despliegue: `docs/railway.md`
+- Atlas: `docs/atlas-setup.md`
+- Troubleshooting: `docs/troubleshooting.md`
+- Seguridad: `docs/security-review.md`
+- Resultados: `docs/informe-resultados.md`
+- Reflexión: `docs/reflexion-individual.md`

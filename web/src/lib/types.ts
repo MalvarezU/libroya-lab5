@@ -34,7 +34,8 @@ export type OrderStatus =
   | "PAID"
   | "PREPARING"
   | "SHIPPED"
-  | "DELIVERED";
+  | "DELIVERED"
+  | "CANCELLED";
 
 export interface Order {
   _id: string;
@@ -44,8 +45,28 @@ export interface Order {
   total: number;
   status: OrderStatus;
   paymentStatus: "UNPAID" | "PAID";
+  checkoutKey?: string;
+  checkoutHash?: string;
   createdAt?: string;
   updatedAt?: string;
+}
+
+export type ShipmentStatus = "PENDING" | "PREPARING" | "SHIPPED" | "DELIVERED";
+
+export interface Shipment {
+  _id: string;
+  orderId: string;
+  address: string;
+  carrier?: string;
+  trackingCode?: string;
+  status: ShipmentStatus;
+  createdAt?: string;
+  updatedAt?: string;
+}
+
+export interface ShipmentTracking {
+  carrier: string;
+  trackingCode: string;
 }
 
 export interface Payment {

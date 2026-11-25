@@ -5,6 +5,8 @@ import type {
   Payment,
   PaypalOrder,
   RegisterResponse,
+  Shipment,
+  ShipmentTracking,
   User,
 } from "./types";
 
@@ -14,6 +16,34 @@ export const API_BASE =
 function getToken(): string | null {
   if (typeof window === "undefined") return null;
   return localStorage.getItem("libroYa_token");
+}
+
+export function parseApiError(data: unknown, statusText = "Request failed"): string {
+  if (typeof data !== "object" || data === null) {
+    return typeof data === "string" && data.trim() ? data.slice(0, 300) : statusText;
+  }
+
+  const payload = data as Record<string, unknown>;
+  const errorMessage = typeof payload.error === "string" ? payload.error.trim() : "";
+  const legacyMessage = typeof payload.message === "string" ? payload.message.trim() : "";
+  const message = errorMessage || legacyMessage || statusText;
+
+  if (message === "Validation error" && Array.isArray(payload.details)) {
+    const details = payload.details
+      .filter((detail): detail is { path?: unknown; message?: unknown } => (
+        typeof detail === "object" && detail !== null
+      ))
+      .map((detail) => {
+        const path = typeof detail.path === "string" ? detail.path : "request";
+        const detailMessage = typeof detail.message === "string" ? detail.message : "Invalid value";
+        return `${path}: ${detailMessage}`;
+      })
+      .slice(0, 4)
+      .join("; ");
+    if (details) return `${message}: ${details}`.slice(0, 500);
+  }
+
+  return message.slice(0, 300);
 }
 
 export class ApiError extends Error {
@@ -48,11 +78,7 @@ async function request<T>(
     }
   }
   if (!res.ok) {
-    const msg =
-      (typeof data === "object" && data !== null && "message" in data
-        ? String((data as { message: unknown }).message)
-        : null) || res.statusText || "Request failed";
-    throw new ApiError(res.status, msg, data);
+    throw new ApiError(res.status, parseApiError(data, res.statusText), data);
   }
   return data as T;
 }
@@ -94,12 +120,20 @@ export const api = {
   deleteBook: (id: string) =>
     request<void>(`/api/books/${id}`, { method: "DELETE", auth: true }),
 
-  createOrder: (items: { bookId: string; quantity: number }[], address: string) =>
+  createOrder: (
+    items: { bookId: string; quantity: number }[],
+    address: string,
+    idempotencyKey: string
+  ) =>
     request<Order>("/api/orders", {
       method: "POST",
+      headers: { "Idempotency-Key": idempotencyKey },
       body: JSON.stringify({ items, address }),
       auth: true,
     }),
+
+  cancelOrder: (id: string) =>
+    request<Order>(`/api/orders/${id}/cancel`, { method: "POST", auth: true }),
 
   getMyOrders: () => request<Order[]>("/api/orders/mine", { auth: true }),
 
@@ -107,25 +141,43 @@ export const api = {
 
   getOrder: (id: string) => request<Order>(`/api/orders/${id}`, { auth: true }),
 
-  updateOrderStatus: (id: string, status: Order["status"]) =>
+  updateOrderStatus: (id: string, status: Order["status"], shipment?: ShipmentTracking) =>
     request<Order>(`/api/orders/${id}/status`, {
       method: "PATCH",
-      body: JSON.stringify({ status }),
+      body: JSON.stringify({ status, ...shipment }),
+      auth: true,
+    }),
+
+  getShipmentByOrder: (orderId: string) =>
+    request<Shipment>(`/api/shipments/order/${orderId}`, { auth: true }),
+
+  updateShipment: (orderId: string, shipment: ShipmentTracking) =>
+    request<Shipment>(`/api/shipments/order/${orderId}`, {
+      method: "PUT",
+      body: JSON.stringify(shipment),
       auth: true,
     }),
 
   createPaypalOrder: (orderId: string) =>
-    request<{ payment: Payment; paypalOrder: PaypalOrder; providerOrderId?: string }>(
+    request<{
+      payment: Payment;
+      paypalOrder?: PaypalOrder;
+      providerOrderId?: string;
+      alreadyCaptured?: boolean;
+    }>(
       `/api/payments/orders/${orderId}/paypal`,
       { method: "POST", auth: true }
     ),
 
   capturePayment: (orderId: string, providerOrderId?: string) =>
-    request<{ payment: Payment; order: Order }>(`/api/payments/orders/${orderId}/capture`, {
-      method: "POST",
-      body: JSON.stringify(providerOrderId ? { providerOrderId } : {}),
-      auth: true,
-    }),
+    request<{ payment: Payment; order: Order; alreadyCaptured?: boolean }>(
+      `/api/payments/orders/${orderId}/capture`,
+      {
+        method: "POST",
+        body: JSON.stringify(providerOrderId ? { providerOrderId } : {}),
+        auth: true,
+      }
+    ),
 };
 
 export type { User };

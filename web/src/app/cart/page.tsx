@@ -1,12 +1,19 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { PayPalScriptProvider, PayPalButtons } from "@paypal/react-paypal-js";
 import { ShoppingCart, Minus, Plus, Truck, PackageCheck, X } from "lucide-react";
 import { api } from "@/lib/api";
+import { useAuth } from "@/lib/auth";
 import { useCart } from "@/lib/cart";
+import {
+  checkoutFingerprint,
+  clearCheckoutKey,
+  getCheckoutKey,
+  type PreparedOrder,
+} from "@/lib/checkout";
 
 
 const clientId = process.env.NEXT_PUBLIC_PAYPAL_CLIENT_ID || "";
@@ -14,13 +21,22 @@ const FREE_SHIPPING_THRESHOLD = 30;
 
 export default function CartPage() {
   const { items, updateQty, remove, clear, total } = useCart();
+  const { user } = useAuth();
   const router = useRouter();
   const [address, setAddress] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<string | null>(null);
-  const [orderId, setOrderId] = useState<string | null>(null);
   const [capturing, setCapturing] = useState(false);
+  const [cancelling, setCancelling] = useState(false);
   const [confirmRemove, setConfirmRemove] = useState<string | null>(null);
+  const preparedOrderRef = useRef<PreparedOrder | null>(null);
+  const fingerprint = checkoutFingerprint(items, address);
+
+  // A changed cart, address, or user must not reuse the previous internal order.
+  // The persisted key is rotated by getCheckoutKey on the next attempt.
+  useEffect(() => {
+    preparedOrderRef.current = null;
+  }, [fingerprint, user?._id]);
 
   if (items.length === 0 && !success) {
     return (
@@ -182,6 +198,7 @@ export default function CartPage() {
               className="min-h-[90px] rounded-xl border border-border bg-canvas p-3 text-sm text-ink-950 placeholder:text-ink-300 focus:border-accent"
             />
           </div>
+          {!user && <p className="text-xs text-warning">Iniciá sesión para continuar con el pago.</p>}
 
           {error && <p className="text-sm text-danger">{error}</p>}
           {success && (
@@ -194,34 +211,70 @@ export default function CartPage() {
             <PayPalScriptProvider options={{ clientId, currency: "USD" }}>
               <PayPalButtons
                 style={{ layout: "vertical", shape: "rect", label: "paypal" }}
-                disabled={!address.trim() || items.length === 0 || capturing}
+                disabled={!user?._id || !address.trim() || items.length === 0 || capturing || cancelling}
                 createOrder={async () => {
                   setError(null);
+                  setSuccess(null);
                   try {
-                    const order = await api.createOrder(
-                      items.map((i) => ({ bookId: i.book._id, quantity: i.quantity })),
-                      address.trim()
-                    );
-                    setOrderId(order._id);
-                    const pp = await api.createPaypalOrder(order._id);
-                    return pp.paypalOrder.id || pp.providerOrderId || pp.payment.providerOrderId;
+                    if (!user?._id) throw new Error("Iniciá sesión para continuar con el pago.");
+                    const idempotencyKey = getCheckoutKey(user._id, fingerprint);
+                    let prepared = preparedOrderRef.current;
+                    if (
+                      !prepared
+                      || prepared.userId !== user._id
+                      || prepared.fingerprint !== fingerprint
+                    ) {
+                      const order = await api.createOrder(
+                        items.map((i) => ({ bookId: i.book._id, quantity: i.quantity })),
+                        address.trim(),
+                        idempotencyKey
+                      );
+                      prepared = { id: order._id, userId: user._id, fingerprint };
+                      preparedOrderRef.current = prepared;
+                    }
+                    const pp = await api.createPaypalOrder(prepared.id);
+                    return pp.paypalOrder?.id || pp.providerOrderId || pp.payment.providerOrderId;
                   } catch (e: unknown) {
                     setError((e as { message?: string })?.message || "Error creando pedido");
                     throw e;
                   }
                 }}
                 onApprove={async (data) => {
-                  if (!orderId) return;
+                  const prepared = preparedOrderRef.current;
+                  if (!prepared) return;
                   setCapturing(true);
                   try {
-                    const res = await api.capturePayment(orderId, data.orderID);
+                    const res = await api.capturePayment(prepared.id, data.orderID);
                     setSuccess("Pago completado. Redirigiendo...");
+                    preparedOrderRef.current = null;
+                    clearCheckoutKey(prepared.userId);
                     clear();
                     router.push(`/orders/${res.order._id}`);
                   } catch (e: unknown) {
                     setError((e as { message?: string })?.message || "Error capturando pago");
                   } finally {
                     setCapturing(false);
+                  }
+                }}
+                onCancel={async () => {
+                  const prepared = preparedOrderRef.current;
+                  preparedOrderRef.current = null;
+                  if (prepared) clearCheckoutKey(prepared.userId);
+                  setError(null);
+                  setSuccess(null);
+                  if (!prepared) {
+                    setSuccess("Pago cancelado. Podés intentarlo de nuevo.");
+                    return;
+                  }
+
+                  setCancelling(true);
+                  try {
+                    await api.cancelOrder(prepared.id);
+                    setSuccess("Pago cancelado. El stock fue liberado; un nuevo intento creará un pedido nuevo.");
+                  } catch (e: unknown) {
+                    setError((e as { message?: string })?.message || "Error cancelando el pedido");
+                  } finally {
+                    setCancelling(false);
                   }
                 }}
                 onError={(err) => {
@@ -231,10 +284,10 @@ export default function CartPage() {
               />
             </PayPalScriptProvider>
           </div>
-          {capturing && (
+          {(capturing || cancelling) && (
             <div className="flex items-center justify-center gap-2 text-sm text-ink-500">
               <span className="h-4 w-4 animate-spin rounded-full border-2 border-border border-t-accent" />
-              Procesando pago...
+              {cancelling ? "Liberando stock..." : "Procesando pago..."}
             </div>
           )}
         </div>

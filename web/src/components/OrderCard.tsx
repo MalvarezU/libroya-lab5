@@ -10,6 +10,7 @@ const STATUS_LABEL: Record<Order["status"], string> = {
   PREPARING: "Preparando",
   SHIPPED: "Enviado",
   DELIVERED: "Entregado",
+  CANCELLED: "Cancelado",
 };
 
 const STATUS_COLOR: Record<Order["status"], string> = {
@@ -18,6 +19,7 @@ const STATUS_COLOR: Record<Order["status"], string> = {
   PREPARING: "bg-accent-violet/15 text-accent-violet",
   SHIPPED: "bg-warning/15 text-warning",
   DELIVERED: "bg-success/15 text-success",
+  CANCELLED: "bg-danger/15 text-danger",
 };
 
 function StatusBadgeLocal({ status }: { status: Order["status"] }) {
@@ -28,13 +30,22 @@ function StatusBadgeLocal({ status }: { status: Order["status"] }) {
   );
 }
 
-export default function OrderCard({ order, onAdvance }: { order: Order; onAdvance?: (order: Order) => void }) {
+export default function OrderCard({
+  order,
+  onAdvance,
+  advancing = false,
+}: {
+  order: Order;
+  onAdvance?: (order: Order) => void;
+  advancing?: boolean;
+}) {
   const NEXT: Record<Order["status"], Order["status"] | null> = {
     PENDING_PAYMENT: "PAID",
     PAID: "PREPARING",
     PREPARING: "SHIPPED",
     SHIPPED: "DELIVERED",
     DELIVERED: null,
+    CANCELLED: null,
   };
   const next = NEXT[order.status];
   return (
@@ -64,10 +75,12 @@ export default function OrderCard({ order, onAdvance }: { order: Order; onAdvanc
         </Link>
         {onAdvance && next && (
           <button
+            type="button"
             onClick={() => onAdvance(order)}
-            className="btn-press rounded-lg bg-gradient-to-r from-accent to-accent-violet px-3 py-1.5 text-xs font-semibold text-white shadow-soft"
+            disabled={advancing}
+            className="btn-press rounded-lg bg-gradient-to-r from-accent to-accent-violet px-3 py-1.5 text-xs font-semibold text-white shadow-soft disabled:cursor-not-allowed disabled:opacity-50"
           >
-            Avanzar → {STATUS_LABEL[next]}
+            {advancing ? "Procesando..." : `Avanzar → ${STATUS_LABEL[next]}`}
           </button>
         )}
       </div>

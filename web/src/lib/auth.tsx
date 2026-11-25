@@ -2,6 +2,7 @@
 
 import React, { createContext, useCallback, useContext, useEffect, useState } from "react";
 import { api } from "./api";
+import { disconnectSocket } from "./socket";
 import type { User } from "./types";
 
 interface AuthContextValue {
@@ -38,6 +39,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   }, []);
 
   const login = useCallback(async (email: string, password: string) => {
+    disconnectSocket();
     const res = await api.login(email, password);
     localStorage.setItem(TOKEN_KEY, res.token);
     localStorage.setItem(USER_KEY, JSON.stringify(res.user));
@@ -46,6 +48,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   }, []);
 
   const register = useCallback(async (name: string, email: string, password: string) => {
+    disconnectSocket();
     await api.register(name, email, password);
     // backend register does not return a token; log in afterwards
     const res = await api.login(email, password);
@@ -56,6 +59,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   }, []);
 
   const logout = useCallback(() => {
+    disconnectSocket();
     localStorage.removeItem(TOKEN_KEY);
     localStorage.removeItem(USER_KEY);
     setToken(null);
