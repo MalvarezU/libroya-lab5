@@ -7,7 +7,7 @@
 - Backend: https://libroya-lab5-production.up.railway.app
 - Base de datos: MongoDB Atlas (replica set).
 - Pagos: PayPal Sandbox.
-- Repositorio: https://github.com/MalvarezU/libroya-lab5 (privado).
+- Repositorio: https://github.com/MalvarezU/libroya-lab5 (público).
 - Commit evaluado: `e16356d`.
 
 ## 2. Pruebas automatizadas
