@@ -83,6 +83,7 @@ El laboratorio no recibió archivos comerciales de los libros. El backend genera
 - PRD: `docs/PRD.md`
 - Arquitectura: `docs/arquitectura.md`
 - Plan de pruebas: `docs/test-plan.md`
+- Casos TestSprite: `docs/testsprite-cases.md`
 - Despliegue: `docs/railway.md`
 - Atlas: `docs/atlas-setup.md`
 - Troubleshooting: `docs/troubleshooting.md`

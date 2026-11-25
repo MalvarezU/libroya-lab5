@@ -11,7 +11,7 @@
 | Descarga de e-books comprados | **PASS** | Endpoint de entitlement + demo edition; pruebas 200/403 |
 | URL frontend y backend en Railway | **PASS** | https://frontend-production-c1fae6c3.up.railway.app · https://libroya-lab5-production.up.railway.app |
 | `PRD.md` | **PASS** | `docs/PRD.md` |
-| Suite TestSprite con evidencia | **PENDIENTE** | `docs/test-plan.md` |
+| Suite TestSprite con evidencia | **PENDIENTE** | Casos listos en `docs/testsprite-cases.md`; falta ejecutar |
 | Informe de resultados | **PASS parcial** | `docs/informe-resultados.md`; falta agregar evidencia TestSprite |
 | Reflexión individual | **BORRADOR** | `docs/reflexion-individual.md` |
 | Pruebas automatizadas | **PASS** | 78/78 backend; build/tsc/lint PASS |
