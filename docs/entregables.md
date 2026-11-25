@@ -13,7 +13,7 @@
 | `PRD.md` | **PASS** | `docs/PRD.md` |
 | Suite TestSprite con evidencia | **PASS** | 12 PASSED / 0 FAILED / 8 BLOCKED; `docs/testsprite-evidence/` |
 | Informe de resultados | **PASS** | `docs/informe-resultados.md` con pruebas automatizadas, TestSprite y evidencia manual |
-| Reflexión individual | **BORRADOR** | `docs/reflexion-individual.md` |
+| Reflexión individual | **PASS** | `docs/reflexion-individual.md` personalizada |
 | Pruebas automatizadas | **PASS** | 78/78 backend; build/tsc/lint PASS |
 | Revisión de seguridad | **PASS con deudas aceptadas** | `docs/security-review.md` |
 

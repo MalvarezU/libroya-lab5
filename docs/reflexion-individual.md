@@ -1,32 +1,13 @@
 # Reflexión individual — LibroYa
 
-> Borrador para personalizar antes de entregar. Reemplazar las secciones por la experiencia y decisiones reales del estudiante.
+Me impresiona cómo los agentes de código y la inteligencia artificial incrementan nuestras capacidades como ingenieros. Ya no solamente como desarrolladores, sino como profesionales capaces de abordar problemas desde una perspectiva mucho más amplia.
 
-## 1. Qué generó la IA
-- Estructura inicial del monorepo (`web/` y `server/`).
-- Modelos, endpoints, middleware de autenticación/autorización y validación.
-- Frontend Next.js: catálogo, carrito, checkout PayPal, historial y tablero Kanban.
-- Integración de Socket.IO y flujo de captura PayPal.
-- Documentación técnica, diagrama de arquitectura y primeras pruebas automatizadas.
+Todavía recuerdo cómo, durante la pandemia, "picar código" era una de las habilidades más rentables en el mercado laboral y cómo parecía necesario especializarse en una sola cosa. La posibilidad de profundizar en varias tecnologías y desempeñar diferentes roles, manteniendo un nivel alto de conocimiento, parecía casi una ilusión. Siempre se escuchaba el mismo consejo: "Especialízate en una sola cosa, no te va a dar para aprenderlo todo".
 
-## 2. Qué verifiqué
-- Revisé que el total se recalculara en el backend y que el precio enviado por el navegador se ignorara.
-- Comprobé en MongoDB que el stock disminuyera y que el pago quedara `CAPTURED`.
-- Ejecuté un pago real en PayPal Sandbox y verifiqué que el pedido pasara a `PAID`.
-- Probé WebSockets con sesiones de cliente y operador.
-- Revisé CORS, manejo de secretos, roles, transiciones de estado y errores.
-- Detecté y corregí problemas de identidad del socket, pedidos duplicados, reservas de stock y capturas repetidas.
+Por eso, ver que hoy podemos montar en un par de horas un sistema completo, con integración a una base de datos, pasarela de pagos y despliegue, es algo que todavía me sigue dejando sin palabras. Las posibilidades son enormes y resulta emocionante ver cómo está cambiando nuestra forma de trabajar. Ya no tenemos que invertir tanto tiempo buscando bugs a mano, peleándonos con configuraciones o leyendo documentación extensísima para resolver problemas puntuales. Podemos apoyarnos en estas herramientas para dedicar más tiempo a lo esencial: pensar, diseñar y construir buenas soluciones.
 
-## 3. Qué decisiones se tomaron manualmente
-- Adaptar el ejemplo PlatoYa al entregable real de venta de libros electrónicos.
-- Mantener frontend y backend separados para que pagos y WebSockets vivan en el backend.
-- Definir una máquina de estados estricta y evitar que el operador marque `PAID` sin captura.
-- Exigir transportista y código de seguimiento antes de marcar un pedido como enviado.
-- Priorizar idempotencia, liberación de stock y recuperación de pagos ante fallos de red.
+Esto refleja lo aprendido en la asignatura: desarrollar una aplicación full stack no es solo conectar frontend, backend, MongoDB y PayPal, sino entender cómo esas piezas forman un sistema de información que responde a las necesidades de una organización y sus usuarios.
 
-## 4. Lecciones aprendidas
-- La IA acelera la construcción, pero no reemplaza la revisión de arquitectura y seguridad.
-- Un `200` del backend no basta: hay que verificar el estado persistido y la actualización en tiempo real.
-- Los flujos de pago deben diseñarse para reintentos, timeouts y solicitudes duplicadas.
-- Las pruebas automatizadas y la evidencia de ejecución son parte del producto, no un paso opcional.
-- La documentación debe describir lo que el sistema realmente hace, no lo que se pretende que haga.
+Como ingenieros, debemos ir más allá de conseguir que una aplicación funcione: preguntarnos qué información recolectamos, cómo podemos aprovecharla, qué decisiones podemos tomar a partir de ella y cómo podemos optimizar los procesos de una empresa. Al final, el valor de un sistema no está únicamente en su tecnología, sino en lo que permite hacer con ella.
+
+Me quedo con la emoción de saber que estamos viviendo una época en la que nuestras capacidades pueden ir mucho más allá de lo que antes imaginábamos. Sin embargo, también creo que esto nos exige mayor criterio: no confundir la capacidad de construir algo rápidamente con la capacidad de construirlo bien. Los agentes pueden hacer gran parte del trabajo operativo, pero somos nosotros quienes debemos comprender el problema, orientar las decisiones y asegurarnos de que la tecnología realmente genere valor.

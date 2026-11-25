@@ -94,8 +94,8 @@ Evidencia de pago (identificadores opacos, sin credenciales):
 
 - [x] Ejecutar TestSprite contra la URL pública.
 - [x] Registrar capturas/logs y tasa de éxito de TestSprite.
-- [ ] Personalizar la reflexión individual.
+- [x] Personalizar la reflexión individual.
 
 ## 6. Decisión de liberación
 
-**Todos los casos ejecutables pasaron y no se detectaron defectos funcionales.** Los 8 casos bloqueados en TestSprite fueron verificados mediante evidencia manual/API. Las URLs públicas, HTTPS, CORS, WSS, pagos, envíos, descarga, pruebas automatizadas y evidencia TestSprite están completos. Solo queda personalizar la reflexión individual.
+**Entrega completa.** Todos los casos ejecutables pasaron y no se detectaron defectos funcionales. Los 8 casos bloqueados en TestSprite fueron verificados mediante evidencia manual/API. Las URLs públicas, HTTPS, CORS, WSS, pagos, envíos, descarga, pruebas automatizadas, evidencia TestSprite y reflexión individual están completos.
