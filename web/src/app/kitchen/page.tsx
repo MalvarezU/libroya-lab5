@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { api } from "@/lib/api";
 import { useAuth } from "@/lib/auth";
@@ -29,6 +29,7 @@ export default function KitchenPage() {
   const router = useRouter();
   const [orders, setOrders] = useState<Order[]>([]);
   const [error, setError] = useState<string | null>(null);
+  const [flashIds, setFlashIds] = useState<Set<string>>(new Set());
 
   useEffect(() => {
     if (loading) return;
@@ -37,7 +38,18 @@ export default function KitchenPage() {
     }
   }, [loading, user, router]);
 
-  const upsert = (o: Order) => {
+  const flash = useCallback((id: string) => {
+    setFlashIds((prev) => new Set(prev).add(id));
+    window.setTimeout(() => {
+      setFlashIds((prev) => {
+        const next = new Set(prev);
+        next.delete(id);
+        return next;
+      });
+    }, 1400);
+  }, []);
+
+  const upsert = useCallback((o: Order) => {
     setOrders((prev) => {
       const idx = prev.findIndex((x) => x._id === o._id);
       if (idx >= 0) {
@@ -47,16 +59,17 @@ export default function KitchenPage() {
       }
       return [o, ...prev];
     });
-  };
+    flash(o._id);
+  }, [flash]);
 
   const load = async () => {
     try {
       const data = await api.getAllOrders();
       setOrders(data);
       setError(null);
-    } catch (e: any) {
+    } catch (e: unknown) {
       // fallback: keep socket-accumulated
-      setError(e?.message || "Error cargando pedidos");
+      setError((e as { message?: string })?.message || "Error cargando pedidos");
     }
   };
 
@@ -68,19 +81,18 @@ export default function KitchenPage() {
   useEffect(() => {
     if (!token || !user || user.role !== "operador") return;
     const socket = getSocket(token);
-    const onCreated = (payload: any) => {
-      // summary; fetch full order
+    const onCreated = (payload: Record<string, unknown>) => {
       if (payload?._id) {
-        api.getOrder(payload._id).then(upsert).catch(() => {});
+        api.getOrder(String(payload._id)).then(upsert).catch(() => {});
       }
     };
-    const onStatus = (payload: any) => {
+    const onStatus = (payload: Record<string, unknown>) => {
       if (payload?._id) {
-        api.getOrder(payload._id).then(upsert).catch(() => {});
+        api.getOrder(String(payload._id)).then(upsert).catch(() => {});
       }
     };
-    const onUpdated = (payload: any) => {
-      if (payload?._id) upsert(payload as Order);
+    const onUpdated = (payload: Record<string, unknown>) => {
+      if (payload?._id) upsert(payload as unknown as Order);
     };
     const onConnect = () => load();
     socket.on("order:created", onCreated);
@@ -93,7 +105,7 @@ export default function KitchenPage() {
       socket.off("order:updated", onUpdated);
       socket.off("connect", onConnect);
     };
-  }, [token, user]);
+  }, [token, user, upsert]);
 
   const advance = async (order: Order) => {
     const next = NEXT[order.status];
@@ -101,18 +113,21 @@ export default function KitchenPage() {
     try {
       const updated = await api.updateOrderStatus(order._id, next);
       upsert(updated);
-    } catch (e: any) {
-      setError(e?.message || "Transición inválida");
+    } catch (e: unknown) {
+      setError((e as { message?: string })?.message || "Transición inválida");
     }
   };
 
-  if (loading) return <p className="text-zinc-500">Cargando...</p>;
+  if (loading) return <p className="text-ink-500">Cargando...</p>;
   if (!user || user.role !== "operador") return null;
 
   return (
     <div className="flex flex-col gap-4">
-      <h1 className="text-2xl font-bold">Panel operador — Kanban</h1>
-      {error && <p className="text-red-600 text-sm">{error}</p>}
+      <div className="flex items-center justify-between">
+        <h1 className="font-display text-2xl font-bold text-ink-950">Panel operador — Kanban</h1>
+        <span className="text-sm text-ink-500">{orders.length} pedidos</span>
+      </div>
+      {error && <p className="text-danger text-sm">{error}</p>}
       <div className="flex flex-col gap-4 md:flex-row">
         {COLUMNS.map((col) => {
           const colOrders = orders.filter((o) => o.status === col.status);
@@ -122,7 +137,11 @@ export default function KitchenPage() {
               title={col.title}
               status={col.status}
               orders={colOrders}
-              renderCard={(o) => <OrderCard order={o} onAdvance={advance} />}
+              renderCard={(o) => (
+                <div className={flashIds.has(o._id) ? "animate-[fadeUp_400ms_ease-out] rounded-2xl ring-2 ring-accent ring-offset-2 ring-offset-canvas" : ""}>
+                  <OrderCard order={o} onAdvance={advance} />
+                </div>
+              )}
             />
           );
         })}

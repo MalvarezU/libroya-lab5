@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { Package, ChevronRight } from "lucide-react";
 import type { Order } from "@/lib/types";
 
 const STATUS_LABEL: Record<Order["status"], string> = {
@@ -12,16 +13,16 @@ const STATUS_LABEL: Record<Order["status"], string> = {
 };
 
 const STATUS_COLOR: Record<Order["status"], string> = {
-  PENDING_PAYMENT: "bg-yellow-100 text-yellow-800",
-  PAID: "bg-blue-100 text-blue-800",
-  PREPARING: "bg-purple-100 text-purple-800",
-  SHIPPED: "bg-orange-100 text-orange-800",
-  DELIVERED: "bg-green-100 text-green-800",
+  PENDING_PAYMENT: "bg-warning/15 text-warning",
+  PAID: "bg-accent-soft text-accent",
+  PREPARING: "bg-accent-violet/15 text-accent-violet",
+  SHIPPED: "bg-warning/15 text-warning",
+  DELIVERED: "bg-success/15 text-success",
 };
 
-export function StatusBadge({ status }: { status: Order["status"] }) {
+function StatusBadgeLocal({ status }: { status: Order["status"] }) {
   return (
-    <span className={`rounded-full px-2 py-0.5 text-xs font-medium ${STATUS_COLOR[status]}`}>
+    <span className={`rounded-full px-2.5 py-0.5 text-xs font-semibold ${STATUS_COLOR[status]}`}>
       {STATUS_LABEL[status]}
     </span>
   );
@@ -37,24 +38,34 @@ export default function OrderCard({ order, onAdvance }: { order: Order; onAdvanc
   };
   const next = NEXT[order.status];
   return (
-    <div className="rounded-lg border border-zinc-200 bg-white p-3 shadow-sm dark:border-zinc-800 dark:bg-zinc-900">
+    <div className="card-lift flex flex-col rounded-2xl border border-border bg-surface p-4 shadow-soft">
       <div className="flex items-center justify-between">
-        <span className="text-xs text-zinc-500">#{order._id.slice(-6)}</span>
-        <StatusBadge status={order.status} />
+        <div className="flex items-center gap-2">
+          <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-accent-soft text-accent">
+            <Package className="h-4 w-4" />
+          </span>
+          <div>
+            <p className="text-xs text-ink-500">Pedido</p>
+            <p className="font-mono text-sm font-semibold text-ink-950">#{order._id.slice(-6)}</p>
+          </div>
+        </div>
+        <StatusBadgeLocal status={order.status} />
       </div>
-      <p className="mt-2 text-sm font-medium line-clamp-2">
-        {order.items.map((i) => `${i.title} x${i.quantity}`).join(", ")}
+      <p className="mt-3 text-sm text-ink-700 line-clamp-2">
+        {order.items.map((i) => `${i.title} ×${i.quantity}`).join(", ")}
       </p>
-      <p className="mt-1 text-sm text-zinc-600 dark:text-zinc-400">${order.total.toFixed(2)}</p>
-      <p className="mt-1 text-xs text-zinc-500 truncate">{order.address}</p>
-      <div className="mt-3 flex items-center justify-between">
-        <Link href={`/orders/${order._id}`} className="text-xs text-indigo-600 hover:underline">
-          Ver detalle
+      <div className="mt-2 flex items-center justify-between text-sm">
+        <span className="font-display text-lg font-bold text-accent">${order.total.toFixed(2)}</span>
+        <span className="text-xs text-ink-500 truncate max-w-[140px]">{order.address}</span>
+      </div>
+      <div className="mt-3 flex items-center justify-between border-t border-border pt-3">
+        <Link href={`/orders/${order._id}`} className="flex items-center gap-1 text-xs font-medium text-accent hover:underline">
+          Ver detalle <ChevronRight className="h-3.5 w-3.5" />
         </Link>
         {onAdvance && next && (
           <button
             onClick={() => onAdvance(order)}
-            className="rounded-md bg-indigo-600 px-2 py-1 text-xs text-white hover:bg-indigo-700"
+            className="btn-press rounded-lg bg-gradient-to-r from-accent to-accent-violet px-3 py-1.5 text-xs font-semibold text-white shadow-soft"
           >
             Avanzar → {STATUS_LABEL[next]}
           </button>
