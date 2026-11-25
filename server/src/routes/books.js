@@ -18,6 +18,7 @@ const bookSchema = z.object({
 });
 
 router.get('/', bookController.list);
+router.get('/:id/download', authenticate, bookController.download);
 router.get('/:id', bookController.getOne);
 
 router.post('/', authenticate, authorize('operador'), validate(bookSchema), bookController.create);

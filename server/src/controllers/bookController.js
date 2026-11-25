@@ -1,4 +1,11 @@
 const Book = require('../models/Book');
+const Order = require('../models/Order');
+const { isValidObjectId } = require('../utils/objectId');
+const {
+  DOWNLOADABLE_ORDER_STATUSES,
+  createDemoEdition,
+  createDownloadFilename,
+} = require('../services/demoEdition');
 
 async function list(req, res, next) {
   try {
@@ -16,6 +23,34 @@ async function getOne(req, res, next) {
     const book = await Book.findById(req.params.id);
     if (!book) return next({ status: 404, message: 'Book not found' });
     return res.json(book);
+  } catch (err) {
+    return next(err);
+  }
+}
+
+async function download(req, res, next) {
+  const bookId = req.params.id;
+  if (!isValidObjectId(bookId)) {
+    return next({ status: 400, message: 'Invalid book ID' });
+  }
+
+  try {
+    const entitlement = await Order.findOne({
+      userId: req.user.id,
+      'items.bookId': bookId,
+      paymentStatus: 'PAID',
+      status: { $in: DOWNLOADABLE_ORDER_STATUSES },
+    });
+    if (!entitlement) return next({ status: 403, message: 'Forbidden' });
+
+    const book = await Book.findById(bookId);
+    if (!book) return next({ status: 404, message: 'Book not found' });
+
+    res.attachment(createDownloadFilename(book.title));
+    res.type('text/plain; charset=utf-8');
+    res.set('Cache-Control', 'private, no-store');
+    res.set('Access-Control-Expose-Headers', 'Content-Disposition');
+    return res.send(createDemoEdition(book));
   } catch (err) {
     return next(err);
   }
@@ -53,4 +88,4 @@ async function remove(req, res, next) {
   }
 }
 
-module.exports = { list, getOne, create, update, remove };
+module.exports = { list, getOne, download, create, update, remove };

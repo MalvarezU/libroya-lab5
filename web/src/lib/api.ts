@@ -56,6 +56,31 @@ export class ApiError extends Error {
   }
 }
 
+async function readResponseData(res: Response): Promise<unknown> {
+  const text = await res.text();
+  if (!text) return null;
+  try {
+    return JSON.parse(text);
+  } catch {
+    return text;
+  }
+}
+
+function getDownloadFilename(header: string | null, bookId: string): string {
+  const quoted = header?.match(/;\s*filename="([^"]*)"/i)?.[1];
+  const bare = header?.match(/;\s*filename=([^;]*)/i)?.[1];
+  const basename = (quoted ?? bare ?? "").replace(/\\/g, "/").split("/").pop() ?? "";
+  const safeName = basename
+    .replace(/[^A-Za-z0-9._-]/g, "-")
+    .replace(/-+/g, "-")
+    .replace(/^-+|-+$/g, "");
+
+  if (safeName.toLowerCase().endsWith(".txt")) return safeName;
+
+  const safeId = bookId.replace(/[^A-Za-z0-9_-]/g, "") || "book";
+  return `${safeId}-demo-edition.txt`;
+}
+
 async function request<T>(
   path: string,
   options: RequestInit & { auth?: boolean } = {}
@@ -68,15 +93,7 @@ async function request<T>(
     if (t) h.Authorization = `Bearer ${t}`;
   }
   const res = await fetch(`${API_BASE}${path}`, { ...rest, headers: h });
-  let data: unknown = null;
-  const text = await res.text();
-  if (text) {
-    try {
-      data = JSON.parse(text);
-    } catch {
-      data = text;
-    }
-  }
+  const data = await readResponseData(res);
   if (!res.ok) {
     throw new ApiError(res.status, parseApiError(data, res.statusText), data);
   }
@@ -102,6 +119,38 @@ export const api = {
   },
 
   getBook: (id: string) => request<Book>(`/api/books/${id}`),
+
+  downloadBook: async (bookId: string): Promise<void> => {
+    const token = getToken();
+    const headers: Record<string, string> = {};
+    if (token) headers.Authorization = `Bearer ${token}`;
+
+    const res = await fetch(
+      `${API_BASE}/api/books/${encodeURIComponent(bookId)}/download`,
+      { headers, cache: "no-store" }
+    );
+    if (!res.ok) {
+      const data = await readResponseData(res);
+      throw new ApiError(res.status, parseApiError(data, res.statusText), data);
+    }
+
+    const blob = await res.blob();
+    const filename = getDownloadFilename(res.headers.get("Content-Disposition"), bookId);
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = filename;
+    link.rel = "noopener";
+    link.style.display = "none";
+
+    try {
+      document.body.appendChild(link);
+      link.click();
+    } finally {
+      link.remove();
+      globalThis.setTimeout(() => URL.revokeObjectURL(url), 0);
+    }
+  },
 
   createBook: (data: Partial<Book>) =>
     request<Book>("/api/books", {

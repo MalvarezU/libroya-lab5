@@ -45,9 +45,42 @@ Si una base existente contiene pedidos duplicados para el mismo usuario y clave,
 |--------|------|--------|-------------|
 | GET | `/api/books?category=` | Público | Lista libros, filtro opcional |
 | GET | `/api/books/:id` | Público | Detalle de libro |
+| GET | `/api/books/:id/download` | Cliente dueño con entitlement | Descarga un adjunto de texto con una edición de demostración generada |
 | POST | `/api/books` | Operador | Crea libro |
 | PUT | `/api/books/:id` | Operador | Actualiza libro |
 | DELETE | `/api/books/:id` | Operador | Elimina libro |
+
+#### Entrega digital
+
+`GET /api/books/:id/download` exige `Authorization: Bearer <JWT>` y valida que `:id` sea un ObjectId de 24 caracteres hexadecimales.
+
+El backend busca una orden que cumpla todas estas condiciones:
+
+- `userId` coincide con el usuario autenticado.
+- `items.bookId` contiene el libro solicitado.
+- `paymentStatus = PAID`.
+- `status` es `PAID`, `PREPARING`, `SHIPPED` o `DELIVERED`.
+
+Si no existe una coincidencia, responde `403` sin revelar si el libro o la orden existen. Los pedidos no pagos, cancelados o de otro usuario no habilitan la descarga.
+
+El laboratorio no recibió archivos comerciales de los libros. Por eso, el backend genera una edición de demostración en texto plano con el título, el autor y un aviso explícito de que no es la obra publicada. El contenido se construye en memoria: no se leen rutas del sistema de archivos ni se exponen URLs públicas de activos.
+
+Respuesta exitosa:
+
+- `Content-Type: text/plain; charset=utf-8`.
+- `Content-Disposition: attachment; filename="<slug-seguro>-demo-edition.txt"`.
+- `Cache-Control: private, no-store`.
+- `Access-Control-Expose-Headers: Content-Disposition`, para que el frontend cross-origin pueda leer el nombre seguro del adjunto.
+
+El nombre del archivo se deriva de un slug ASCII de hasta 80 caracteres; se eliminan rutas, acentos y caracteres de control para evitar inyección de encabezados.
+
+| Código | Situación |
+|--------|-----------|
+| `200` | Adjunto generado para un comprador con entitlement |
+| `400` | ObjectId inválido |
+| `401` | JWT ausente, inválido o expirado |
+| `403` | Sin orden pagada válida del usuario para ese libro |
+| `404` | El libro ya no existe, aunque la orden conserve el entitlement |
 
 ### Pedidos
 
@@ -154,7 +187,7 @@ Eventos: `order:created`, `order:status_changed`, `order:updated`.
 
 ## Validación y errores
 
-- Los IDs de pedido y pago deben ser ObjectIds de 24 hexadecimales.
+- Los IDs de pedido, pago y libro deben ser ObjectIds de 24 hexadecimales.
 - Cantidades: 1 a 100. Dirección: recortada, 1 a 500 caracteres.
 - `carrier`: hasta 100 caracteres; `trackingCode`: hasta 120.
 - Errores de validación: `{ "error": "Validation error", "details": [{ "path": "...", "message": "..." }] }`.
@@ -167,4 +200,5 @@ Eventos: `order:created`, `order:status_changed`, `order:updated`.
 - `NEXT_PUBLIC_*` solo contiene URLs o Client ID público.
 - CORS limitado a `CLIENT_ORIGIN`.
 - Rate limit global, rate limit específico de login, helmet, validación zod y manejo centralizado de errores.
+- La entrega digital se autoriza en el backend por usuario, libro y pago; no usa URLs públicas ni rutas de archivos proporcionadas por el cliente.
 - La clave de checkout se genera con `crypto.randomUUID`, se guarda en `sessionStorage` por usuario y se rota si cambian carrito, dirección o usuario.

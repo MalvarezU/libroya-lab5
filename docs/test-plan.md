@@ -18,8 +18,11 @@ La suite usa modelos, Mongoose, PayPal y sockets simulados. No conecta a MongoDB
 | A10 | Verificación de captura | Captura válida; ID superior/capture/custom ID; estado; importe finito/exacto; moneda | Solo una captura completa y coincuente pasa a `PAID`; los demás casos quedan sin pagar | `payment-hardening.test.js` |
 | A11 | Reintento PayPal | Respuesta no-2xx conciliada; conciliación inválida; repetición; estado avanzado; propietario; carreras | `GET order details` recupera capturas perdidas; no hay doble cargo ni regresión de estado | `payment-hardening.test.js` |
 | A12 | Utilidades PayPal | Request IDs, `GET order details`, error no-2xx | IDs deterministas y distintos de ≤ 38 caracteres; bearer auth; status/code preservados | `paypal-utils.test.js` |
+| A13 | Entrega digital | Dueño pagado en cuatro estados; no pago; cancelado; otro usuario; ObjectId inválido; nombre seguro | `200` con adjunto demo; `403` sin entitlement; `400` inválido; `401` sin JWT; slug sin rutas ni inyección | `book-download.test.js` |
 
-**Cobertura actual:** 67 pruebas, 67 aprobadas, 0 fallidas. Las 17 pruebas de envíos previas se mantienen.
+**Cobertura actual:** 78 pruebas, 78 aprobadas, 0 falladas. Las 17 pruebas de envíos previas se mantienen.
+
+Las descargas automatizadas usan ediciones de demostración generadas porque no se suministraron archivos comerciales de los libros.
 
 ## Comandos de verificación
 
@@ -38,7 +41,7 @@ Resultados de la última ejecución local:
 
 | Comando | Resultado |
 |---------|-----------|
-| `server: npm test` | PASS — 67/67 |
+| `server: npm test` | PASS — 78/78 |
 | `server: node --check` de `src` y `tests` | PASS |
 | `web: npx tsc --noEmit` | PASS |
 | `web: npm run lint` | PASS |
@@ -66,6 +69,7 @@ Resultados de la última ejecución local:
 | F16 | Validación | Cantidad > 100, ObjectId inválido o dirección vacía/larga | Media |
 | F17 | Despliegue | Recargar y navegar rutas internas | Media |
 | F18 | Envíos | Cargar carrier/tracking y ver detalle | Alta |
+| F19 | Entrega digital | Descargar cada e-book de un pedido pagado; verificar carga, error y ausencia de botón sin entitlement | Alta |
 
 ## Pendiente de integración
 

@@ -1,7 +1,17 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { Package, MapPin, CreditCard, Calendar, Truck, Hash, PackageCheck } from "lucide-react";
+import {
+  Package,
+  MapPin,
+  CreditCard,
+  Calendar,
+  Truck,
+  Hash,
+  PackageCheck,
+  Download,
+  Loader2,
+} from "lucide-react";
 import { api } from "@/lib/api";
 import { useAuth } from "@/lib/auth";
 import { getSocket } from "@/lib/socket";
@@ -16,12 +26,21 @@ const SHIPMENT_STATUS_LABEL: Record<Shipment["status"], string> = {
   DELIVERED: "Entregado",
 };
 
+const DOWNLOADABLE_STATUSES: Order["status"][] = [
+  "PAID",
+  "PREPARING",
+  "SHIPPED",
+  "DELIVERED",
+];
+
 export default function OrderDetailClient({ id }: { id: string }) {
-  const { token } = useAuth();
+  const { token, user } = useAuth();
   const [order, setOrder] = useState<Order | null>(null);
   const [shipment, setShipment] = useState<Shipment | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [downloadingBookId, setDownloadingBookId] = useState<string | null>(null);
+  const [downloadError, setDownloadError] = useState<{ bookId: string; message: string } | null>(null);
   const loadVersion = useRef(0);
 
   useEffect(() => {
@@ -67,6 +86,31 @@ export default function OrderDetailClient({ id }: { id: string }) {
       socket.off("connect", refetch);
     };
   }, [id, token]);
+
+  const canDownload = Boolean(
+    order
+      && order.paymentStatus === "PAID"
+      && DOWNLOADABLE_STATUSES.includes(order.status)
+      && order.userId === (user?._id ?? user?.id)
+  );
+
+  const handleDownload = async (bookId: string) => {
+    if (downloadingBookId) return;
+    setDownloadingBookId(bookId);
+    setDownloadError(null);
+    try {
+      await api.downloadBook(bookId);
+    } catch (downloadFailure) {
+      setDownloadError({
+        bookId,
+        message: downloadFailure instanceof Error
+          ? downloadFailure.message
+          : "No se pudo descargar el e-book.",
+      });
+    } finally {
+      setDownloadingBookId(null);
+    }
+  };
 
   if (loading) {
     return (
@@ -128,18 +172,51 @@ export default function OrderDetailClient({ id }: { id: string }) {
 
       <div className="rounded-2xl border border-border bg-surface p-5 shadow-soft">
         <h2 className="mb-3 font-display text-lg font-bold text-ink-950">Artículos</h2>
+        {canDownload && (
+          <p className="mb-3 text-xs text-ink-500">
+            Las descargas son ediciones de demostración generadas para este laboratorio.
+          </p>
+        )}
         <ul className="flex flex-col divide-y divide-border">
-          {order.items.map((i, idx) => (
-            <li key={idx} className="flex items-center justify-between py-3 text-sm">
-              <div className="flex items-center gap-3">
-                <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-accent-soft text-accent">
-                  <Package className="h-4 w-4" />
-                </span>
-                <span className="text-ink-700">
-                  {i.title} <span className="text-ink-500">×{i.quantity}</span>
-                </span>
+          {order.items.map((i) => (
+            <li key={i.bookId} className="flex flex-col gap-2 py-3 text-sm">
+              <div className="flex items-center justify-between gap-3">
+                <div className="flex min-w-0 items-center gap-3">
+                  <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-accent-soft text-accent">
+                    <Package className="h-4 w-4" aria-hidden="true" />
+                  </span>
+                  <span className="break-words text-ink-700">
+                    {i.title} <span className="text-ink-500">×{i.quantity}</span>
+                  </span>
+                </div>
+                <div className="flex shrink-0 items-center gap-3">
+                  <span className="font-semibold text-ink-950">${(i.price * i.quantity).toFixed(2)}</span>
+                  {canDownload && (
+                    <button
+                      type="button"
+                      onClick={() => handleDownload(i.bookId)}
+                      disabled={downloadingBookId !== null}
+                      aria-busy={downloadingBookId === i.bookId}
+                      className="btn-press inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-accent to-accent-violet px-3 py-2 text-xs font-semibold text-white shadow-soft hover:shadow-lift disabled:opacity-60"
+                    >
+                      {downloadingBookId === i.bookId ? (
+                        <>
+                          <Loader2 className="h-4 w-4 animate-spin" aria-hidden="true" />
+                          Descargando...
+                        </>
+                      ) : (
+                        <>
+                          <Download className="h-4 w-4" aria-hidden="true" />
+                          Descargar e-book
+                        </>
+                      )}
+                    </button>
+                  )}
+                </div>
               </div>
-              <span className="font-semibold text-ink-950">${(i.price * i.quantity).toFixed(2)}</span>
+              {downloadError?.bookId === i.bookId && (
+                <p role="alert" className="text-danger">{downloadError.message}</p>
+              )}
             </li>
           ))}
         </ul>

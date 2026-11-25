@@ -64,6 +64,12 @@ npm install
 npm run dev        # http://localhost:3000
 ```
 
+## Entrega digital
+
+Los clientes autenticados pueden descargar cada e-book desde el detalle de un pedido pagado. El endpoint `GET /api/books/:id/download` verifica en el backend que la orden pertenezca al usuario, contenga ese libro, tenga `paymentStatus = PAID` y esté en `PAID`, `PREPARING`, `SHIPPED` o `DELIVERED`.
+
+El laboratorio no recibió archivos comerciales de los libros. El backend genera una edición de demostración en texto plano con título, autor y un aviso explícito; no expone URLs públicas de activos ni lee rutas de archivos arbitrarias. El frontend envía el JWT, recibe un blob y muestra estados de carga y error por artículo.
+
 ## Despliegue (Railway)
 
 - Frontend: https://<pendiente>.up.railway.app
@@ -80,5 +86,6 @@ npm run dev        # http://localhost:3000
 - Atlas: `docs/atlas-setup.md`
 - Troubleshooting: `docs/troubleshooting.md`
 - Seguridad: `docs/security-review.md`
+- Entregables: `docs/entregables.md`
 - Resultados: `docs/informe-resultados.md`
 - Reflexión: `docs/reflexion-individual.md`

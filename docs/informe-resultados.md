@@ -1,30 +1,82 @@
 # Informe de resultados — LibroYa
 
 ## 1. Entorno de prueba
-- Frontend: (URL Railway)
-- Backend: (URL Railway)
-- Fecha de ejecución: 
-- Cuentas de prueba: cliente@demo.com / operador@demo.com (passwords dedicados, revocables)
 
-## 2. Suite TestSprite
-- Tipo: Live Web App
-- Áreas ejecutadas: Landing/Public Entry, Account Access, Menu Catalog, Cart & Delivery, Payment & PayPal Checkout, Order History, Real-Time Order Tracking.
-- Total casos: 
-- Aprobados: 
-- Fallidos: 
+- Fecha: 24 de noviembre de 2026.
+- Frontend local: `http://localhost:3000`.
+- Backend local: `http://localhost:4000`.
+- Base de datos: MongoDB Atlas (replica set).
+- Pagos: PayPal Sandbox.
+- Repositorio: https://github.com/MalvarezU/libroya-lab5 (privado).
+- Commit evaluado: `7e5b41d` + cambios de descarga digital pendientes de commit.
 
-## 3. Resultados por caso (resumen)
-| Área | Caso | Resultado | Severidad (si falla) |
-|------|------|-----------|----------------------|
-| | | | |
+## 2. Pruebas automatizadas
+
+Comando: `cd server && npm test`.
+
+- Total: **78**.
+- Aprobadas: **78**.
+- Fallidas: **0**.
+- Cobertura funcional: autenticación/autorización, validación, idempotencia de checkout, reserva/liberación de stock, expiración de pedidos, pagos PayPal (create/capture/reconciliación), envíos y esquemas.
+
+Verificaciones adicionales:
+
+- `node --check` en backend: PASS.
+- `npx tsc --noEmit`: PASS.
+- `npm run lint`: PASS.
+- `npm run build`: PASS (Next.js 16.4.6).
+- `git diff --check`: PASS.
+
+## 3. Pruebas manuales ejecutadas
+
+| ID | Prueba | Resultado |
+|----|--------|-----------|
+| M01 | Registro/login cliente y operador | PASS |
+| M02 | Catálogo público y seed de 12 libros | PASS |
+| M03 | Pedido con precio manipulado (`price: 999`) | PASS: backend ignoró el precio y cobró el precio de DB |
+| M04 | Stock insuficiente y rollback transaccional | PASS: sin descuento parcial |
+| M05 | Líneas duplicadas del mismo libro | PASS: cantidades agregadas |
+| M06 | Checkout con mismo `Idempotency-Key` | PASS: mismo pedido, stock descontado una vez |
+| M07 | Mismo key con body distinto | PASS: HTTP 409 |
+| M08 | Cancelar pedido pendiente | PASS: stock restaurado |
+| M09 | Pago PayPal Sandbox aprobado | PASS: pago `CAPTURED`, pedido `PAID` |
+| M10 | Captura de pedido ajeno | PASS: HTTP 403 |
+| M11 | Captura repetida en `PAID` y `PREPARING` | PASS: no regresó el estado |
+| M12 | Avance `PAID → PREPARING → SHIPPED` | PASS |
+| M13 | Shipment con carrier/tracking | PASS |
+| M14 | WebSocket de operador recibe cambio de estado | PASS |
+| M15 | Build de producción | PASS |
+| M16 | Descarga de e-book pagado / rechazo a otro usuario | PASS: 200 con demo edition / 403 |
+
+Evidencia de pago (identificadores opacos, sin credenciales):
+
+- Pedido: `6b06629242e64c10ee6fdb3b`.
+- Pago: `CAPTURED`.
+- Capture ID: `7EG04992JC225620A`.
+- Importe verificado: `10.50 USD`.
 
 ## 4. Defectos encontrados y corregidos
-| # | Defecto | Causa raíz | Corrección | Commit |
-|---|---------|------------|------------|--------|
-| 1 | | | | |
 
-## 5. Fallos abiertos / limitaciones conocidas
-- (listar)
+| # | Defecto | Corrección |
+|---|---------|------------|
+| D01 | Socket reutilizado con token de otro usuario | Reconexión por identidad y disconnect en logout/login |
+| D02 | Pedidos duplicados al reintentar PayPal | `Idempotency-Key` API + persistencia de checkout |
+| D03 | Stock sin transacción | Reserva atómica con transacción Mongoose |
+| D04 | Stock sin liberación | Cancelación y expiración de pedidos pendientes |
+| D05 | Captura repetida regresaba estados | Reintento terminal sin modificar `order.status` |
+| D06 | Pagos permitidos a operador no dueño | Autorización estricta por propiedad |
+| D07 | PayPal sin reconciliación de respuesta perdida | Request ID + order details + verificación de identificadores |
+| D08 | Gestión de envíos ausente | Shipment sincronizado + carrier/tracking obligatorio |
+| D09 | Error de `params` fuera de Suspense | Acceso dentro de boundary async |
+
+## 5. Pendientes de entrega
+
+- [ ] Desplegar frontend y backend en Railway.
+- [ ] Configurar HTTPS, CORS y WSS desplegados.
+- [ ] Ejecutar TestSprite contra la URL pública.
+- [ ] Registrar capturas/logs y tasa de éxito de TestSprite.
+- [ ] Personalizar la reflexión individual.
 
 ## 6. Decisión de liberación
-- (liberar / no liberar) y justificación.
+
+**Todavía no liberar.** El comportamiento local está verificado, pero faltan las URLs públicas de Railway y la evidencia de TestSprite exigidas por la guía.
