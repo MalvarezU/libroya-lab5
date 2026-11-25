@@ -8,7 +8,7 @@
 - Base de datos: MongoDB Atlas (replica set).
 - Pagos: PayPal Sandbox.
 - Repositorio: https://github.com/MalvarezU/libroya-lab5 (privado).
-- Commit evaluado: `7e5b41d` + cambios de descarga digital pendientes de commit.
+- Commit evaluado: `d4128c4` + ajuste de proxy pendiente de commit.
 
 ## 2. Pruebas automatizadas
 

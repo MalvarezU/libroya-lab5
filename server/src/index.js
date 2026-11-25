@@ -20,6 +20,8 @@ const paymentRoutes = require('./routes/payments');
 
 const app = express();
 
+// Railway terminates TLS at its proxy; trust one hop for client IPs/rate limits.
+app.set('trust proxy', 1);
 app.use(helmet());
 app.use(cors({ origin: config.clientOrigin, credentials: true }));
 app.use(morgan('dev'));
