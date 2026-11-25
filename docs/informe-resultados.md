@@ -1,5 +1,9 @@
 # Informe de resultados — LibroYa
 
+## Resumen ejecutivo
+
+La aplicación quedó desplegada y funcional en Railway. Las **78 pruebas automatizadas pasaron** y TestSprite ejecutó **20 casos**: **12 aprobados, 0 fallidos y 8 bloqueados** por limitaciones del runner. Los 8 bloqueados fueron verificados mediante pruebas manuales y de API. **Todos los casos ejecutables pasaron y no se detectaron defectos funcionales.**
+
 ## 1. Entorno de prueba
 
 - Fecha: 25 de noviembre de 2026.
@@ -94,4 +98,4 @@ Evidencia de pago (identificadores opacos, sin credenciales):
 
 ## 6. Decisión de liberación
 
-**Listo para entrega una vez personalizada la reflexión individual.** Las URLs públicas, HTTPS, CORS, WSS, pagos, envíos, descarga, pruebas automatizadas y evidencia TestSprite están completos. No se detectaron defectos funcionales en los casos ejecutables.
+**Todos los casos ejecutables pasaron y no se detectaron defectos funcionales.** Los 8 casos bloqueados en TestSprite fueron verificados mediante evidencia manual/API. Las URLs públicas, HTTPS, CORS, WSS, pagos, envíos, descarga, pruebas automatizadas y evidencia TestSprite están completos. Solo queda personalizar la reflexión individual.
