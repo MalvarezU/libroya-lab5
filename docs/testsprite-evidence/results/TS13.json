@@ -1,0 +1,60 @@
+{
+  "resultId": "78c748fb-d4df-46cb-9ecf-49725d5be23c",
+  "runId": "5a998d77-5c59-45ba-820b-aec5027d6431",
+  "caseKey": "2149cb41-5156-4d83-9839-5b9f006f6fdc",
+  "caseHash": "0921e880161d887bbb7fd79e0deba93144a174682bec25458d5a5ea27387ef3d",
+  "title": "TS13 A paid order is captured once and is not duplicated by repeated actions",
+  "type": "FRONTEND",
+  "testStatus": "BLOCKED",
+  "processStatus": "Idle",
+  "processErrorMessage": null,
+  "error": "TEST BLOCKED\n\nThe payment test could not be run — a PayPal Sandbox Personal buyer account is required, but none was provided.\n\nObservations:\n- The LibroYa catalog page loaded.\n- The provided credentials are for the LibroYa client account; no PayPal Sandbox buyer credentials were included.",
+  "cause": "Something got in the way: the payment test was blocked because no PayPal Sandbox Personal buyer account was provided, so the checkout flow could not be completed or judged.",
+  "fix": "Provide valid PayPal Sandbox Personal buyer credentials for the test run, then rerun the payment flow. The app loaded normally, but checkout could not be exercised without a sandbox buyer account.",
+  "blockedReason": null,
+  "trace": null,
+  "apiOutput": null,
+  "videoUrl": "https://testsprite-videos.s3.us-east-1.amazonaws.com/20261125-060741-826c6e96.webm?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=ASIAZQ3DRZAIIJHJGAXB%2F20261125%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20261125T065040Z&X-Amz-Expires=900&X-Amz-Security-Token=IQoJb3JpZ2luX2VjENT%2F%2F%2F%2F%2F%2F%2F%2F%2F%2FwEaCXVzLWVhc3QtMSJHMEUCIQCdKwB8hEW%2BqMTq%2F6YmXt8lDpeSbK8wOZtXft0UDeLojgIgK43YrFq3xMogtoo0%2B8aVjUGCO5bKOCvOgnUFEWg8pMAqhAQInP%2F%2F%2F%2F%2F%2F%2F%2F%2F%2FARAAGgw2NTQ2NTQ0MjUxMDQiDFPYyrY1Nz6%2Bl1mY7yrYA4i4nnJ5lfvuxB9gS3SIkETgjCikv77hS3lNkGTR1GU0VNUsSMc1CoSfqgLt2IAvYkGJ9ZzFvmIU8RbERO69rzc767uZHOrgtp%2Flub7MAa95ZESGYlR0dgm4TtFU%2Fdl4yQ8kEzJy1NFtM4z3ZKu8u%2B6gf2bVLC4kJaTn9ZS0SNC%2F9WNi3UU69r%2BjILKkyoxWxZBY0u3aQupRSr7SFClMghVNTjjww01KjLdst13xbqXFYVnPPh1ScRjVDMULqcgDgFLpIIJKvubyEE39N6o0MTPgmimOKUGwFZtNZTZUTVzR6b6z3aPMwU3SZc2d%2FZHL0%2B03dmNBrl%2BK%2BecjHxq7OloylkdHMMzC6TEXXbw%2Fl9795PsZltk9H2PPaZDU9DVYOW0z4kIwJe3NbpzTUM4u8ST5NE%2FpWjWz74qTbfLXZ12PruZWJbwKUN9DBCR4jSbhNT3LAVHlzAZIjEl587RkkJlK4CwzhE3gYxjftCRs5NIFZUtqXGjmztLCa3hLsfuSw1xv6x%2Boh92EH4XXsuNoL19di%2BCO1exPIfOybLEcZw4phtT6EQOOZn4XvVD7Jy3wwQyIc6A3d09gqBo3QpkizMTSnzAmpps9e6cmL2d9xYy%2BP2foky7Ws98wjaWZ2AY6pQHGVGgL6RED4qdwgqAKjdGrf6w1VEYzqkxWYB5YHEuPf70pAFaIUgGdkcEUMTY6byIND9BBeCKRwpT5DMg8ACiq4Wq8N%2FSJefInbzP5GhaarMk4tBUXNjBQZdtZuTAwmsri54wCmENPh4jex8bjVJDnY0NdFZf6plD%2Bxqk6sq0xt9GBBuUv1u4hpatqqrJSI2IyQR0oxIcDsT2fdSqFE1R7rrM6X5Q%3D&X-Amz-Signature=d160a9605bb5c26ecfecedb9df6371976de748916d13adb069da79d4942fa048&X-Amz-SignedHeaders=host&x-amz-checksum-mode=ENABLED&x-id=GetObject",
+  "envId": "7e6d5506-2d52-4106-9235-6f75a8c83a8c",
+  "created": "2026-11-25T06:07:07.914Z",
+  "modified": "2026-11-25T06:07:42.977Z",
+  "failedStep": {
+    "stepIndex": "002",
+    "type": "assertion",
+    "action": "visible",
+    "description": "The paid order detail was not opened because checkout was blocked.",
+    "status": "failed",
+    "selector": null,
+    "url": null,
+    "healed": false,
+    "screenshotSignedUrl": null,
+    "htmlSignedUrl": "https://frontend-test-recordings-production.s3.us-east-1.amazonaws.com/raw_html/2149cb41-5156-4d83-9839-5b9f006f6fdc/78c748fb-d4df-46cb-9ecf-49725d5be23c/002.html?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=ASIAZQ3DRZAIIJHJGAXB%2F20261125%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20261125T065040Z&X-Amz-Expires=3600&X-Amz-Security-Token=IQoJb3JpZ2luX2VjENT%2F%2F%2F%2F%2F%2F%2F%2F%2F%2FwEaCXVzLWVhc3QtMSJHMEUCIQCdKwB8hEW%2BqMTq%2F6YmXt8lDpeSbK8wOZtXft0UDeLojgIgK43YrFq3xMogtoo0%2B8aVjUGCO5bKOCvOgnUFEWg8pMAqhAQInP%2F%2F%2F%2F%2F%2F%2F%2F%2F%2FARAAGgw2NTQ2NTQ0MjUxMDQiDFPYyrY1Nz6%2Bl1mY7yrYA4i4nnJ5lfvuxB9gS3SIkETgjCikv77hS3lNkGTR1GU0VNUsSMc1CoSfqgLt2IAvYkGJ9ZzFvmIU8RbERO69rzc767uZHOrgtp%2Flub7MAa95ZESGYlR0dgm4TtFU%2Fdl4yQ8kEzJy1NFtM4z3ZKu8u%2B6gf2bVLC4kJaTn9ZS0SNC%2F9WNi3UU69r%2BjILKkyoxWxZBY0u3aQupRSr7SFClMghVNTjjww01KjLdst13xbqXFYVnPPh1ScRjVDMULqcgDgFLpIIJKvubyEE39N6o0MTPgmimOKUGwFZtNZTZUTVzR6b6z3aPMwU3SZc2d%2FZHL0%2B03dmNBrl%2BK%2BecjHxq7OloylkdHMMzC6TEXXbw%2Fl9795PsZltk9H2PPaZDU9DVYOW0z4kIwJe3NbpzTUM4u8ST5NE%2FpWjWz74qTbfLXZ12PruZWJbwKUN9DBCR4jSbhNT3LAVHlzAZIjEl587RkkJlK4CwzhE3gYxjftCRs5NIFZUtqXGjmztLCa3hLsfuSw1xv6x%2Boh92EH4XXsuNoL19di%2BCO1exPIfOybLEcZw4phtT6EQOOZn4XvVD7Jy3wwQyIc6A3d09gqBo3QpkizMTSnzAmpps9e6cmL2d9xYy%2BP2foky7Ws98wjaWZ2AY6pQHGVGgL6RED4qdwgqAKjdGrf6w1VEYzqkxWYB5YHEuPf70pAFaIUgGdkcEUMTY6byIND9BBeCKRwpT5DMg8ACiq4Wq8N%2FSJefInbzP5GhaarMk4tBUXNjBQZdtZuTAwmsri54wCmENPh4jex8bjVJDnY0NdFZf6plD%2Bxqk6sq0xt9GBBuUv1u4hpatqqrJSI2IyQR0oxIcDsT2fdSqFE1R7rrM6X5Q%3D&X-Amz-Signature=7a06dea86942cb1ac14f66a5a023710a1e87c7e81cfacdf553a17eeee23f5e28&X-Amz-SignedHeaders=host&x-amz-checksum-mode=ENABLED&x-id=GetObject"
+  },
+  "steps": [
+    {
+      "stepIndex": "001",
+      "type": "action",
+      "action": "navigate",
+      "description": "Navigate to https://frontend-production-c1fae6c3.up.railway.app",
+      "status": "passed",
+      "selector": null,
+      "url": "https://frontend-production-c1fae6c3.up.railway.app/",
+      "healed": false,
+      "screenshotSignedUrl": "https://frontend-test-recordings-production.s3.us-east-1.amazonaws.com/step_screenshots/2149cb41-5156-4d83-9839-5b9f006f6fdc/78c748fb-d4df-46cb-9ecf-49725d5be23c/001.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=ASIAZQ3DRZAIIJHJGAXB%2F20261125%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20261125T065040Z&X-Amz-Expires=3600&X-Amz-Security-Token=IQoJb3JpZ2luX2VjENT%2F%2F%2F%2F%2F%2F%2F%2F%2F%2FwEaCXVzLWVhc3QtMSJHMEUCIQCdKwB8hEW%2BqMTq%2F6YmXt8lDpeSbK8wOZtXft0UDeLojgIgK43YrFq3xMogtoo0%2B8aVjUGCO5bKOCvOgnUFEWg8pMAqhAQInP%2F%2F%2F%2F%2F%2F%2F%2F%2F%2FARAAGgw2NTQ2NTQ0MjUxMDQiDFPYyrY1Nz6%2Bl1mY7yrYA4i4nnJ5lfvuxB9gS3SIkETgjCikv77hS3lNkGTR1GU0VNUsSMc1CoSfqgLt2IAvYkGJ9ZzFvmIU8RbERO69rzc767uZHOrgtp%2Flub7MAa95ZESGYlR0dgm4TtFU%2Fdl4yQ8kEzJy1NFtM4z3ZKu8u%2B6gf2bVLC4kJaTn9ZS0SNC%2F9WNi3UU69r%2BjILKkyoxWxZBY0u3aQupRSr7SFClMghVNTjjww01KjLdst13xbqXFYVnPPh1ScRjVDMULqcgDgFLpIIJKvubyEE39N6o0MTPgmimOKUGwFZtNZTZUTVzR6b6z3aPMwU3SZc2d%2FZHL0%2B03dmNBrl%2BK%2BecjHxq7OloylkdHMMzC6TEXXbw%2Fl9795PsZltk9H2PPaZDU9DVYOW0z4kIwJe3NbpzTUM4u8ST5NE%2FpWjWz74qTbfLXZ12PruZWJbwKUN9DBCR4jSbhNT3LAVHlzAZIjEl587RkkJlK4CwzhE3gYxjftCRs5NIFZUtqXGjmztLCa3hLsfuSw1xv6x%2Boh92EH4XXsuNoL19di%2BCO1exPIfOybLEcZw4phtT6EQOOZn4XvVD7Jy3wwQyIc6A3d09gqBo3QpkizMTSnzAmpps9e6cmL2d9xYy%2BP2foky7Ws98wjaWZ2AY6pQHGVGgL6RED4qdwgqAKjdGrf6w1VEYzqkxWYB5YHEuPf70pAFaIUgGdkcEUMTY6byIND9BBeCKRwpT5DMg8ACiq4Wq8N%2FSJefInbzP5GhaarMk4tBUXNjBQZdtZuTAwmsri54wCmENPh4jex8bjVJDnY0NdFZf6plD%2Bxqk6sq0xt9GBBuUv1u4hpatqqrJSI2IyQR0oxIcDsT2fdSqFE1R7rrM6X5Q%3D&X-Amz-Signature=20ffc57d744d7403c404ca3d5248be742a2ba3fd52b2c9f026e4fd4ec404f532&X-Amz-SignedHeaders=host&x-amz-checksum-mode=ENABLED&x-id=GetObject",
+      "htmlSignedUrl": "https://frontend-test-recordings-production.s3.us-east-1.amazonaws.com/raw_html/2149cb41-5156-4d83-9839-5b9f006f6fdc/78c748fb-d4df-46cb-9ecf-49725d5be23c/001.html?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=ASIAZQ3DRZAIIJHJGAXB%2F20261125%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20261125T065040Z&X-Amz-Expires=3600&X-Amz-Security-Token=IQoJb3JpZ2luX2VjENT%2F%2F%2F%2F%2F%2F%2F%2F%2F%2FwEaCXVzLWVhc3QtMSJHMEUCIQCdKwB8hEW%2BqMTq%2F6YmXt8lDpeSbK8wOZtXft0UDeLojgIgK43YrFq3xMogtoo0%2B8aVjUGCO5bKOCvOgnUFEWg8pMAqhAQInP%2F%2F%2F%2F%2F%2F%2F%2F%2F%2FARAAGgw2NTQ2NTQ0MjUxMDQiDFPYyrY1Nz6%2Bl1mY7yrYA4i4nnJ5lfvuxB9gS3SIkETgjCikv77hS3lNkGTR1GU0VNUsSMc1CoSfqgLt2IAvYkGJ9ZzFvmIU8RbERO69rzc767uZHOrgtp%2Flub7MAa95ZESGYlR0dgm4TtFU%2Fdl4yQ8kEzJy1NFtM4z3ZKu8u%2B6gf2bVLC4kJaTn9ZS0SNC%2F9WNi3UU69r%2BjILKkyoxWxZBY0u3aQupRSr7SFClMghVNTjjww01KjLdst13xbqXFYVnPPh1ScRjVDMULqcgDgFLpIIJKvubyEE39N6o0MTPgmimOKUGwFZtNZTZUTVzR6b6z3aPMwU3SZc2d%2FZHL0%2B03dmNBrl%2BK%2BecjHxq7OloylkdHMMzC6TEXXbw%2Fl9795PsZltk9H2PPaZDU9DVYOW0z4kIwJe3NbpzTUM4u8ST5NE%2FpWjWz74qTbfLXZ12PruZWJbwKUN9DBCR4jSbhNT3LAVHlzAZIjEl587RkkJlK4CwzhE3gYxjftCRs5NIFZUtqXGjmztLCa3hLsfuSw1xv6x%2Boh92EH4XXsuNoL19di%2BCO1exPIfOybLEcZw4phtT6EQOOZn4XvVD7Jy3wwQyIc6A3d09gqBo3QpkizMTSnzAmpps9e6cmL2d9xYy%2BP2foky7Ws98wjaWZ2AY6pQHGVGgL6RED4qdwgqAKjdGrf6w1VEYzqkxWYB5YHEuPf70pAFaIUgGdkcEUMTY6byIND9BBeCKRwpT5DMg8ACiq4Wq8N%2FSJefInbzP5GhaarMk4tBUXNjBQZdtZuTAwmsri54wCmENPh4jex8bjVJDnY0NdFZf6plD%2Bxqk6sq0xt9GBBuUv1u4hpatqqrJSI2IyQR0oxIcDsT2fdSqFE1R7rrM6X5Q%3D&X-Amz-Signature=1077153840e33cd57fbd80bc9d71d12e14c36bffc2e7cf7d604cf7abc0f5cb0c&X-Amz-SignedHeaders=host&x-amz-checksum-mode=ENABLED&x-id=GetObject"
+    },
+    {
+      "stepIndex": "002",
+      "type": "assertion",
+      "action": "visible",
+      "description": "The paid order detail was not opened because checkout was blocked.",
+      "status": "failed",
+      "selector": null,
+      "url": null,
+      "healed": false,
+      "screenshotSignedUrl": null,
+      "htmlSignedUrl": "https://frontend-test-recordings-production.s3.us-east-1.amazonaws.com/raw_html/2149cb41-5156-4d83-9839-5b9f006f6fdc/78c748fb-d4df-46cb-9ecf-49725d5be23c/002.html?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=ASIAZQ3DRZAIIJHJGAXB%2F20261125%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20261125T065040Z&X-Amz-Expires=3600&X-Amz-Security-Token=IQoJb3JpZ2luX2VjENT%2F%2F%2F%2F%2F%2F%2F%2F%2F%2FwEaCXVzLWVhc3QtMSJHMEUCIQCdKwB8hEW%2BqMTq%2F6YmXt8lDpeSbK8wOZtXft0UDeLojgIgK43YrFq3xMogtoo0%2B8aVjUGCO5bKOCvOgnUFEWg8pMAqhAQInP%2F%2F%2F%2F%2F%2F%2F%2F%2F%2FARAAGgw2NTQ2NTQ0MjUxMDQiDFPYyrY1Nz6%2Bl1mY7yrYA4i4nnJ5lfvuxB9gS3SIkETgjCikv77hS3lNkGTR1GU0VNUsSMc1CoSfqgLt2IAvYkGJ9ZzFvmIU8RbERO69rzc767uZHOrgtp%2Flub7MAa95ZESGYlR0dgm4TtFU%2Fdl4yQ8kEzJy1NFtM4z3ZKu8u%2B6gf2bVLC4kJaTn9ZS0SNC%2F9WNi3UU69r%2BjILKkyoxWxZBY0u3aQupRSr7SFClMghVNTjjww01KjLdst13xbqXFYVnPPh1ScRjVDMULqcgDgFLpIIJKvubyEE39N6o0MTPgmimOKUGwFZtNZTZUTVzR6b6z3aPMwU3SZc2d%2FZHL0%2B03dmNBrl%2BK%2BecjHxq7OloylkdHMMzC6TEXXbw%2Fl9795PsZltk9H2PPaZDU9DVYOW0z4kIwJe3NbpzTUM4u8ST5NE%2FpWjWz74qTbfLXZ12PruZWJbwKUN9DBCR4jSbhNT3LAVHlzAZIjEl587RkkJlK4CwzhE3gYxjftCRs5NIFZUtqXGjmztLCa3hLsfuSw1xv6x%2Boh92EH4XXsuNoL19di%2BCO1exPIfOybLEcZw4phtT6EQOOZn4XvVD7Jy3wwQyIc6A3d09gqBo3QpkizMTSnzAmpps9e6cmL2d9xYy%2BP2foky7Ws98wjaWZ2AY6pQHGVGgL6RED4qdwgqAKjdGrf6w1VEYzqkxWYB5YHEuPf70pAFaIUgGdkcEUMTY6byIND9BBeCKRwpT5DMg8ACiq4Wq8N%2FSJefInbzP5GhaarMk4tBUXNjBQZdtZuTAwmsri54wCmENPh4jex8bjVJDnY0NdFZf6plD%2Bxqk6sq0xt9GBBuUv1u4hpatqqrJSI2IyQR0oxIcDsT2fdSqFE1R7rrM6X5Q%3D&X-Amz-Signature=7a06dea86942cb1ac14f66a5a023710a1e87c7e81cfacdf553a17eeee23f5e28&X-Amz-SignedHeaders=host&x-amz-checksum-mode=ENABLED&x-id=GetObject"
+    }
+  ],
+  "signIn": null
+}

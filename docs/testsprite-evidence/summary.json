@@ -1,0 +1,170 @@
+{
+  "projectId": "d182ce8e-b90b-4605-b2ec-7098f1b3788d",
+  "targetUrl": "https://frontend-production-c1fae6c3.up.railway.app",
+  "total": 20,
+  "passed": 12,
+  "failed": 0,
+  "blocked": 8,
+  "results": [
+    {
+      "case": "TS01",
+      "status": "passed",
+      "title": "TS01 Public catalog loads without a session and filters by category",
+      "resultId": "5e04aa87-ece9-4bef-9f07-e5e49f727099",
+      "runId": "5a998d77-5c59-45ba-820b-aec5027d6431",
+      "error": null
+    },
+    {
+      "case": "TS02",
+      "status": "passed",
+      "title": "TS02 Registering a new account signs in as a client",
+      "resultId": "9c64f873-6d67-4fef-b0ef-04098015c468",
+      "runId": "5a998d77-5c59-45ba-820b-aec5027d6431",
+      "error": null
+    },
+    {
+      "case": "TS03",
+      "status": "passed",
+      "title": "TS03 Login rejects bad credentials with a generic error and accepts valid ones",
+      "resultId": "9d263bad-27dd-4af1-8551-eb8241df9ea2",
+      "runId": "5a998d77-5c59-45ba-820b-aec5027d6431",
+      "error": null
+    },
+    {
+      "case": "TS04",
+      "status": "passed",
+      "title": "TS04 A client cannot open the operator panel or the book admin",
+      "resultId": "537e7db1-f89a-48a5-8b6b-2eee0ec3200d",
+      "runId": "5a998d77-5c59-45ba-820b-aec5027d6431",
+      "error": null
+    },
+    {
+      "case": "TS05",
+      "status": "passed",
+      "title": "TS05 A book with no stock cannot be added to the cart",
+      "resultId": "0de0b081-6200-44cc-bf9c-283b9000c754",
+      "runId": "985becfa-7139-4f90-ae62-46eed8359c1d",
+      "error": null
+    },
+    {
+      "case": "TS06",
+      "status": "passed",
+      "title": "TS06 Cart quantities, removal and totals, persisted across reloads",
+      "resultId": "f23a4db1-9150-4928-a526-220ac6daa3a6",
+      "runId": "5a998d77-5c59-45ba-820b-aec5027d6431",
+      "error": null
+    },
+    {
+      "case": "TS07",
+      "status": "passed",
+      "title": "TS07 Checkout is blocked while the shipping address is empty or blank",
+      "resultId": "b9323281-004f-4c5a-9318-582b5169d8bd",
+      "runId": "5a998d77-5c59-45ba-820b-aec5027d6431",
+      "error": null
+    },
+    {
+      "case": "TS08",
+      "status": "blocked",
+      "title": "TS08 The order total is computed by the server, not taken from the browser",
+      "resultId": "ea84b5a4-1478-4dfc-a2c6-5b15e31a4020",
+      "runId": "5a998d77-5c59-45ba-820b-aec5027d6431",
+      "error": "TEST BLOCKED\n\nThe test could not be run because it requires changing the saved cart price in browser storage, which is unavailable for this test. The visible store page has no control for tampering with that price.\n\nObservations:\n- The catalog lists “El principito” at $8.50.\n- No cart-price editing control is visible on the page."
+    },
+    {
+      "case": "TS09",
+      "status": "passed",
+      "title": "TS09 Retrying checkout with the same cart does not duplicate orders or stock",
+      "resultId": "ce7f9f3a-a931-477e-bb6e-124f7f9666ca",
+      "runId": "5a998d77-5c59-45ba-820b-aec5027d6431",
+      "error": null
+    },
+    {
+      "case": "TS10",
+      "status": "passed",
+      "title": "TS10 Changing the cart after a cancelled checkout creates a new order and releases stock",
+      "resultId": "3e03368b-23a6-4f6e-b4e9-d7728e65eb6d",
+      "runId": "85e0e3b3-3dd1-4a70-a4a1-d7df145afd3f",
+      "error": null
+    },
+    {
+      "case": "TS11",
+      "status": "blocked",
+      "title": "TS11 Paying with PayPal Sandbox marks the order paid and empties the cart",
+      "resultId": "424e4a8f-2abe-4888-aa73-91b1ea5ee337",
+      "runId": "5a998d77-5c59-45ba-820b-aec5027d6431",
+      "error": "TEST BLOCKED\n\nThe paid-order test could not be completed because no PayPal Sandbox Personal buyer account was provided. The supplied credentials are for the LibroYa client account, and payment must not be attempted without Sandbox buyer credentials.\n\nObservations:\n- The cart page showed that the cart is empty.\n- No PayPal Sandbox buyer account credentials were provided."
+    },
+    {
+      "case": "TS12",
+      "status": "passed",
+      "title": "TS12 Cancelling PayPal cancels the order, releases stock and allows another attempt",
+      "resultId": "8574d3c7-0a71-42bf-a93b-8533ecd99e53",
+      "runId": "85e0e3b3-3dd1-4a70-a4a1-d7df145afd3f",
+      "error": null
+    },
+    {
+      "case": "TS13",
+      "status": "blocked",
+      "title": "TS13 A paid order is captured once and is not duplicated by repeated actions",
+      "resultId": "78c748fb-d4df-46cb-9ecf-49725d5be23c",
+      "runId": "5a998d77-5c59-45ba-820b-aec5027d6431",
+      "error": "TEST BLOCKED\n\nThe payment test could not be run — a PayPal Sandbox Personal buyer account is required, but none was provided.\n\nObservations:\n- The LibroYa catalog page loaded.\n- The provided credentials are for the LibroYa client account; no PayPal Sandbox buyer credentials were included."
+    },
+    {
+      "case": "TS14",
+      "status": "passed",
+      "title": "TS14 A user sees only their own orders and cannot open someone else's",
+      "resultId": "475f629f-e551-47d6-ac58-1c40ee775cab",
+      "runId": "85e0e3b3-3dd1-4a70-a4a1-d7df145afd3f",
+      "error": null
+    },
+    {
+      "case": "TS15",
+      "status": "blocked",
+      "title": "TS15 Only the owner of a paid order can download its e-book",
+      "resultId": "10cb91d0-fdd6-495a-be35-ce572c851f99",
+      "runId": "ab4cdaee-6050-48e7-a714-bc6d911be278",
+      "error": "TEST BLOCKED\n\nThe payment and download test could not be run because no PayPal Sandbox Personal buyer credentials were provided. The supplied LibroYa client credentials are not sufficient to approve a Sandbox payment.\n\nObservations:\n- The cart page showed “Tu carrito está vacío.”\n- The page offered “Ir al catálogo”; no order or payment was present."
+    },
+    {
+      "case": "TS16",
+      "status": "blocked",
+      "title": "TS16 A paid order appears on the Kanban and status changes reach the order page live",
+      "resultId": "86608d38-fc0b-4ebd-bc69-84df9639b3c7",
+      "runId": "ab4cdaee-6050-48e7-a714-bc6d911be278",
+      "error": "TEST BLOCKED\n\nThe test could not be run because it requires an operator account and a PayPal Sandbox Personal buyer account. The available credentials are for the client role, and no Sandbox Personal buyer account was provided.\n\nObservations:\n- The LibroYa storefront is open in a signed-out state.\n- The page offers sign-in and registration; the operator Kanban and checkout behavior were not reached."
+    },
+    {
+      "case": "TS17",
+      "status": "blocked",
+      "title": "TS17 Shipping requires carrier and tracking code, which the buyer then sees",
+      "resultId": "d6e7a8b3-3f39-4f65-8138-8ce1b31d30b7",
+      "runId": "a8f61571-0b05-4f6f-aea8-cbed85f015ae",
+      "error": "TEST BLOCKED\n\nThe test could not be run because the page is not signed in as the required operator, and no PayPal Sandbox Personal buyer account was provided. The supplied credentials are for the client account, so the order payment and shipment workflow could not be reached.\n\nObservations:\n- The page shows the public catalog with “Entrar” and “Registro” links.\n- No operator panel or signed-in operator state is visible.\n- No PayPal Sandbox buyer account was provided."
+    },
+    {
+      "case": "TS18",
+      "status": "blocked",
+      "title": "TS18 Delivering a shipped order shows \"Entregado\" everywhere",
+      "resultId": "8569a1d5-beb8-46fb-979e-a942d84546dd",
+      "runId": "5a998d77-5c59-45ba-820b-aec5027d6431",
+      "error": "TEST BLOCKED\n\nThe test could not be run — it requires an operator account and a PayPal Sandbox Personal buyer account, but neither was provided. The available credentials are for a client account, so the order payment and delivery workflow was not reached.\n\nObservations:\n- The page shows a sign-in form with email and password fields.\n- The supplied account is identified as a client account.\n- No PayPal Sandbox Personal buyer account was provided."
+    },
+    {
+      "case": "TS19",
+      "status": "passed",
+      "title": "TS19 Internal routes survive reloads and a new identity starts clean",
+      "resultId": "448ddde4-a94a-419d-9d81-aa6bc3133566",
+      "runId": "85e0e3b3-3dd1-4a70-a4a1-d7df145afd3f",
+      "error": null
+    },
+    {
+      "case": "TS20",
+      "status": "blocked",
+      "title": "TS20 The order page recovers after a network drop and gets later status changes",
+      "resultId": "0803d3fc-c06b-4d0c-ab34-40c272990cfe",
+      "runId": "ab4cdaee-6050-48e7-a714-bc6d911be278",
+      "error": "TEST BLOCKED\n\nThe order-status test could not be run — it requires an operator account and a PayPal Sandbox Personal buyer account, but neither was provided. The available credentials are for a client account, which does not meet the operator-role requirement.\n\nObservations:\n- The LibroYa catalog page shows an “Entrar” option, indicating no active signed-in operator session.\n- The provided username is VAR_{username}.\n- No PayPal Sandbox Personal buyer account details were provided."
+    }
+  ]
+}

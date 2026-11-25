@@ -1,0 +1,60 @@
+{
+  "resultId": "ea84b5a4-1478-4dfc-a2c6-5b15e31a4020",
+  "runId": "5a998d77-5c59-45ba-820b-aec5027d6431",
+  "caseKey": "4563eb03-ec72-456b-923a-ac38eb893cbd",
+  "caseHash": "2ed2408f0b9fdd6e27b382c44f576cb1788ea3b73d52b9449994eef5770e1b37",
+  "title": "TS08 The order total is computed by the server, not taken from the browser",
+  "type": "FRONTEND",
+  "testStatus": "BLOCKED",
+  "processStatus": "Idle",
+  "processErrorMessage": null,
+  "error": "TEST BLOCKED\n\nThe test could not be run because it requires changing the saved cart price in browser storage, which is unavailable for this test. The visible store page has no control for tampering with that price.\n\nObservations:\n- The catalog lists “El principito” at $8.50.\n- No cart-price editing control is visible on the page.",
+  "cause": "Something got in the way: the run was blocked before it could judge the app because the test requires changing the saved cart price in browser storage, but no such control or setup path is available on the visible store page. The catalog and pricing were not the issue; the test environment lacked a way to prepare the needed cart state.",
+  "fix": "Provide a way for the test to set the saved cart price in browser storage for this session, or seed the cart state before the test starts. If that is not intended to be user-facing, expose a stable test hook or storage setup step so the run can modify the cart price without relying on a visible control.",
+  "blockedReason": null,
+  "trace": null,
+  "apiOutput": null,
+  "videoUrl": "https://testsprite-videos.s3.us-east-1.amazonaws.com/20261125-060815-4969d833.webm?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=ASIAZQ3DRZAILJQWF5KH%2F20261125%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20261125T065033Z&X-Amz-Expires=900&X-Amz-Security-Token=IQoJb3JpZ2luX2VjENL%2F%2F%2F%2F%2F%2F%2F%2F%2F%2FwEaCXVzLWVhc3QtMSJHMEUCIQCA4I7TOtqFGaVQPOp2chlENEA3uONG0tVyQbiPZmx6RwIgGC8rchy7C7vbqSb8jWPxxXvZ2r3QfnqykyzGIyFA%2FWYqhAQIm%2F%2F%2F%2F%2F%2F%2F%2F%2F%2F%2FARAAGgw2NTQ2NTQ0MjUxMDQiDLTooVQaagFDR3YMISrYA5WtlABje%2FVsZu7sLCLM0Xa8sOsfgWdVqbt2XntrOyjhlpxjtiMsehJUSEy%2Bu6N9qbK78ja5KqZCnulTWotiNbOsqyhatO3lAp5dDnbPR%2FBpOAcyYWjBNEShz1KTrFzp0FAJi9amKoj6oDeIkD9XD3A4GXoeYPxG6zCcLtrHVz230v1BmnsniFMO%2F5WlGb92ZcGexRvYdPdHp05PxDoyNUO%2BEb9CRwAAljq6pSL%2Fnu4dqBOwF6%2F93tFUCLzySB9qfyAXJmJc5jWI%2BaqeLye%2BPPLeZHXzSgIpwYg1EySl5SX5xMf2GpR07enPVn4bGKiQIUtEBHmcNNKq%2FQMjYkmApWk5df4eviPtA%2F6wCKASRD5cJd5QGue7OyIObM2kgY9CZBk1tnyYB%2B3%2BMPSVuNlRnd2hRaaY0CUxREV7BohIDWzpnEgHj86IIjeCNxsyYtGFl%2FXMK8uKE59PxYh%2Fzt9oErdnjG1CtJvzp9odxFjuycIQSyv69iDS8B5YybIr2afPnRlqTTrujrwNMqCoewMxV%2FwxgYNwi5ZVFwROkqyBOMfmLCOCSrPpevJw8qPtip%2FS0kl6pmdUux3VxCHpaawPf9QC%2FW8Y1OIb3or4%2F%2B3QGb3zzt1Gk%2FIUCgQw6P%2BY2AY6pQHQcKpLUSRAVRJroIcOZOVr9yuxBhYomWXhoWQi1cH8lZ9EsmFKHzhKVy%2FU6pgwJ4z8pRvRqnH%2By7A2WYoJ%2BKNRh6myovGGkhjCpNR8mB%2BvOwYQmDkKTOK5SYcy51byIrZPIQ1aK7AZS4anPSexwdXNYQskTvuuKG6yeOi5j2L9iO88jdrlVaJUCNFavCZt72gIv5IvW9NUgZsMOoIuVHo7rZzOfAQ%3D&X-Amz-Signature=7665b27d9a75e8b274f53005fc26d81c0a1eeaf3b5c4a30dc67e1c8c7892e4d4&X-Amz-SignedHeaders=host&x-amz-checksum-mode=ENABLED&x-id=GetObject",
+  "envId": "7e6d5506-2d52-4106-9235-6f75a8c83a8c",
+  "created": "2026-11-25T06:07:07.914Z",
+  "modified": "2026-11-25T06:08:17.417Z",
+  "failedStep": {
+    "stepIndex": "002",
+    "type": "assertion",
+    "action": "visible",
+    "description": "The cart should display El principito at the tampered price.",
+    "status": "failed",
+    "selector": null,
+    "url": null,
+    "healed": false,
+    "screenshotSignedUrl": null,
+    "htmlSignedUrl": "https://frontend-test-recordings-production.s3.us-east-1.amazonaws.com/raw_html/4563eb03-ec72-456b-923a-ac38eb893cbd/ea84b5a4-1478-4dfc-a2c6-5b15e31a4020/002.html?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=ASIAZQ3DRZAINFUAEUIL%2F20261125%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20261125T065033Z&X-Amz-Expires=3600&X-Amz-Security-Token=IQoJb3JpZ2luX2VjENP%2F%2F%2F%2F%2F%2F%2F%2F%2F%2FwEaCXVzLWVhc3QtMSJGMEQCICvFbYUR2stAIP5xMU4L7FHRdSc20QyGLSCbCJETQIbpAiAab616OnV7K85LUp5ZQrcedTkwcc07C3jPMe%2BCY6K5GCqEBAic%2F%2F%2F%2F%2F%2F%2F%2F%2F%2F8BEAAaDDY1NDY1NDQyNTEwNCIMywcf8efSS%2FggZld7KtgDDIrv1MDYo2PtxaDUnM4g%2B8r%2FMnUIsYSBtXo8av%2BShe9ufmHB3XNbh8T%2B%2BexGninOEJvMsZMSfT4GUA4D6jvgkMPmQiwkwOAVfqQN%2BMHWn2XXjirKPz1Hs1fOAPsTbr00hT7rqd0w8gKM%2BJPTGqwgr9VdVo%2B5fgLIVHcOoHbjqtiBlTo1VioP3PIZNMOel%2FELtFt6ww21hCjnSfU7gqA06E3YSRcWJcnpMw86hQ8n7LmJDULHrzdx3BFPZxmpxYH9nN2OSuQq6DqeA4SwIwEd9r%2BF311qeP2TEVuyty7Bzb7hsOjqVCU2nCJ7IR4kGOcjdaOYZthLnnzXIMLkEIzpceoDjQ%2FBa00FIz38U2Pq6P%2FfEsoIs5sl%2FkmECgzeBRmsvbfwwz9WPcQ6m2j6CbPhvcKUB6YBSNsBCzIJaD9nxG%2B1fALeMgNbk2CABpgRChFPllacne%2F5lWoF%2BEonIyhfeoNsT1zJ3NQw3RhljNxHndcpGrUcWJg9y7ayjc8OhqbUR%2BdcFbBY7Cuxtk1YxRMu4hzyYlFMwzEl93b6T36m6ONP7cwlfoZD%2BVz8UW6wD17r16GMGHu4RHXsMU4%2FoLTyfbxtcNDx7Mr%2FjaZgewLFcIOJ86nkrblt4zDzlpnYBjqmAdFDqF3gsmRADZSBRLZZaGJcrIS10qJzMUnIWLQ5ZRtupZhj1s%2BqefoTtnrT8mrylukSokXDyOrOUVk%2BoRIKTnYFdia49UbYfOVmcUIDKAWU5u%2B4ccYFrGSJe%2F4AwRjyS%2BIs%2Bx0PNKgtqEUzgniUmBLkA0JGJjClc9Ys8gaQ0SVZ9pQVr8dcAgoTumR8uQdQsuT1Ai9LR1HlE%2BxDi0wl0pt6ZGF0ZGU%3D&X-Amz-Signature=8faab0ae380eaf3abd4b91735d8c3332ad100d71ad34424990f8cf1bd2ea7919&X-Amz-SignedHeaders=host&x-amz-checksum-mode=ENABLED&x-id=GetObject"
+  },
+  "steps": [
+    {
+      "stepIndex": "001",
+      "type": "action",
+      "action": "navigate",
+      "description": "Navigate to https://frontend-production-c1fae6c3.up.railway.app",
+      "status": "passed",
+      "selector": null,
+      "url": "https://frontend-production-c1fae6c3.up.railway.app/",
+      "healed": false,
+      "screenshotSignedUrl": "https://frontend-test-recordings-production.s3.us-east-1.amazonaws.com/step_screenshots/4563eb03-ec72-456b-923a-ac38eb893cbd/ea84b5a4-1478-4dfc-a2c6-5b15e31a4020/001.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=ASIAZQ3DRZAINFUAEUIL%2F20261125%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20261125T065033Z&X-Amz-Expires=3600&X-Amz-Security-Token=IQoJb3JpZ2luX2VjENP%2F%2F%2F%2F%2F%2F%2F%2F%2F%2FwEaCXVzLWVhc3QtMSJGMEQCICvFbYUR2stAIP5xMU4L7FHRdSc20QyGLSCbCJETQIbpAiAab616OnV7K85LUp5ZQrcedTkwcc07C3jPMe%2BCY6K5GCqEBAic%2F%2F%2F%2F%2F%2F%2F%2F%2F%2F8BEAAaDDY1NDY1NDQyNTEwNCIMywcf8efSS%2FggZld7KtgDDIrv1MDYo2PtxaDUnM4g%2B8r%2FMnUIsYSBtXo8av%2BShe9ufmHB3XNbh8T%2B%2BexGninOEJvMsZMSfT4GUA4D6jvgkMPmQiwkwOAVfqQN%2BMHWn2XXjirKPz1Hs1fOAPsTbr00hT7rqd0w8gKM%2BJPTGqwgr9VdVo%2B5fgLIVHcOoHbjqtiBlTo1VioP3PIZNMOel%2FELtFt6ww21hCjnSfU7gqA06E3YSRcWJcnpMw86hQ8n7LmJDULHrzdx3BFPZxmpxYH9nN2OSuQq6DqeA4SwIwEd9r%2BF311qeP2TEVuyty7Bzb7hsOjqVCU2nCJ7IR4kGOcjdaOYZthLnnzXIMLkEIzpceoDjQ%2FBa00FIz38U2Pq6P%2FfEsoIs5sl%2FkmECgzeBRmsvbfwwz9WPcQ6m2j6CbPhvcKUB6YBSNsBCzIJaD9nxG%2B1fALeMgNbk2CABpgRChFPllacne%2F5lWoF%2BEonIyhfeoNsT1zJ3NQw3RhljNxHndcpGrUcWJg9y7ayjc8OhqbUR%2BdcFbBY7Cuxtk1YxRMu4hzyYlFMwzEl93b6T36m6ONP7cwlfoZD%2BVz8UW6wD17r16GMGHu4RHXsMU4%2FoLTyfbxtcNDx7Mr%2FjaZgewLFcIOJ86nkrblt4zDzlpnYBjqmAdFDqF3gsmRADZSBRLZZaGJcrIS10qJzMUnIWLQ5ZRtupZhj1s%2BqefoTtnrT8mrylukSokXDyOrOUVk%2BoRIKTnYFdia49UbYfOVmcUIDKAWU5u%2B4ccYFrGSJe%2F4AwRjyS%2BIs%2Bx0PNKgtqEUzgniUmBLkA0JGJjClc9Ys8gaQ0SVZ9pQVr8dcAgoTumR8uQdQsuT1Ai9LR1HlE%2BxDi0wl0pt6ZGF0ZGU%3D&X-Amz-Signature=5e46ee1ce87de5e9d72be722f8c76f11c755ad3b6d53038981eaac4d002a2d8b&X-Amz-SignedHeaders=host&x-amz-checksum-mode=ENABLED&x-id=GetObject",
+      "htmlSignedUrl": "https://frontend-test-recordings-production.s3.us-east-1.amazonaws.com/raw_html/4563eb03-ec72-456b-923a-ac38eb893cbd/ea84b5a4-1478-4dfc-a2c6-5b15e31a4020/001.html?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=ASIAZQ3DRZAINFUAEUIL%2F20261125%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20261125T065033Z&X-Amz-Expires=3600&X-Amz-Security-Token=IQoJb3JpZ2luX2VjENP%2F%2F%2F%2F%2F%2F%2F%2F%2F%2FwEaCXVzLWVhc3QtMSJGMEQCICvFbYUR2stAIP5xMU4L7FHRdSc20QyGLSCbCJETQIbpAiAab616OnV7K85LUp5ZQrcedTkwcc07C3jPMe%2BCY6K5GCqEBAic%2F%2F%2F%2F%2F%2F%2F%2F%2F%2F8BEAAaDDY1NDY1NDQyNTEwNCIMywcf8efSS%2FggZld7KtgDDIrv1MDYo2PtxaDUnM4g%2B8r%2FMnUIsYSBtXo8av%2BShe9ufmHB3XNbh8T%2B%2BexGninOEJvMsZMSfT4GUA4D6jvgkMPmQiwkwOAVfqQN%2BMHWn2XXjirKPz1Hs1fOAPsTbr00hT7rqd0w8gKM%2BJPTGqwgr9VdVo%2B5fgLIVHcOoHbjqtiBlTo1VioP3PIZNMOel%2FELtFt6ww21hCjnSfU7gqA06E3YSRcWJcnpMw86hQ8n7LmJDULHrzdx3BFPZxmpxYH9nN2OSuQq6DqeA4SwIwEd9r%2BF311qeP2TEVuyty7Bzb7hsOjqVCU2nCJ7IR4kGOcjdaOYZthLnnzXIMLkEIzpceoDjQ%2FBa00FIz38U2Pq6P%2FfEsoIs5sl%2FkmECgzeBRmsvbfwwz9WPcQ6m2j6CbPhvcKUB6YBSNsBCzIJaD9nxG%2B1fALeMgNbk2CABpgRChFPllacne%2F5lWoF%2BEonIyhfeoNsT1zJ3NQw3RhljNxHndcpGrUcWJg9y7ayjc8OhqbUR%2BdcFbBY7Cuxtk1YxRMu4hzyYlFMwzEl93b6T36m6ONP7cwlfoZD%2BVz8UW6wD17r16GMGHu4RHXsMU4%2FoLTyfbxtcNDx7Mr%2FjaZgewLFcIOJ86nkrblt4zDzlpnYBjqmAdFDqF3gsmRADZSBRLZZaGJcrIS10qJzMUnIWLQ5ZRtupZhj1s%2BqefoTtnrT8mrylukSokXDyOrOUVk%2BoRIKTnYFdia49UbYfOVmcUIDKAWU5u%2B4ccYFrGSJe%2F4AwRjyS%2BIs%2Bx0PNKgtqEUzgniUmBLkA0JGJjClc9Ys8gaQ0SVZ9pQVr8dcAgoTumR8uQdQsuT1Ai9LR1HlE%2BxDi0wl0pt6ZGF0ZGU%3D&X-Amz-Signature=28da5a34408fd2e3664417f34f365e4bed3e69b2430cf0fd2ed50ae8705a7b31&X-Amz-SignedHeaders=host&x-amz-checksum-mode=ENABLED&x-id=GetObject"
+    },
+    {
+      "stepIndex": "002",
+      "type": "assertion",
+      "action": "visible",
+      "description": "The cart should display El principito at the tampered price.",
+      "status": "failed",
+      "selector": null,
+      "url": null,
+      "healed": false,
+      "screenshotSignedUrl": null,
+      "htmlSignedUrl": "https://frontend-test-recordings-production.s3.us-east-1.amazonaws.com/raw_html/4563eb03-ec72-456b-923a-ac38eb893cbd/ea84b5a4-1478-4dfc-a2c6-5b15e31a4020/002.html?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=ASIAZQ3DRZAINFUAEUIL%2F20261125%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20261125T065033Z&X-Amz-Expires=3600&X-Amz-Security-Token=IQoJb3JpZ2luX2VjENP%2F%2F%2F%2F%2F%2F%2F%2F%2F%2FwEaCXVzLWVhc3QtMSJGMEQCICvFbYUR2stAIP5xMU4L7FHRdSc20QyGLSCbCJETQIbpAiAab616OnV7K85LUp5ZQrcedTkwcc07C3jPMe%2BCY6K5GCqEBAic%2F%2F%2F%2F%2F%2F%2F%2F%2F%2F8BEAAaDDY1NDY1NDQyNTEwNCIMywcf8efSS%2FggZld7KtgDDIrv1MDYo2PtxaDUnM4g%2B8r%2FMnUIsYSBtXo8av%2BShe9ufmHB3XNbh8T%2B%2BexGninOEJvMsZMSfT4GUA4D6jvgkMPmQiwkwOAVfqQN%2BMHWn2XXjirKPz1Hs1fOAPsTbr00hT7rqd0w8gKM%2BJPTGqwgr9VdVo%2B5fgLIVHcOoHbjqtiBlTo1VioP3PIZNMOel%2FELtFt6ww21hCjnSfU7gqA06E3YSRcWJcnpMw86hQ8n7LmJDULHrzdx3BFPZxmpxYH9nN2OSuQq6DqeA4SwIwEd9r%2BF311qeP2TEVuyty7Bzb7hsOjqVCU2nCJ7IR4kGOcjdaOYZthLnnzXIMLkEIzpceoDjQ%2FBa00FIz38U2Pq6P%2FfEsoIs5sl%2FkmECgzeBRmsvbfwwz9WPcQ6m2j6CbPhvcKUB6YBSNsBCzIJaD9nxG%2B1fALeMgNbk2CABpgRChFPllacne%2F5lWoF%2BEonIyhfeoNsT1zJ3NQw3RhljNxHndcpGrUcWJg9y7ayjc8OhqbUR%2BdcFbBY7Cuxtk1YxRMu4hzyYlFMwzEl93b6T36m6ONP7cwlfoZD%2BVz8UW6wD17r16GMGHu4RHXsMU4%2FoLTyfbxtcNDx7Mr%2FjaZgewLFcIOJ86nkrblt4zDzlpnYBjqmAdFDqF3gsmRADZSBRLZZaGJcrIS10qJzMUnIWLQ5ZRtupZhj1s%2BqefoTtnrT8mrylukSokXDyOrOUVk%2BoRIKTnYFdia49UbYfOVmcUIDKAWU5u%2B4ccYFrGSJe%2F4AwRjyS%2BIs%2Bx0PNKgtqEUzgniUmBLkA0JGJjClc9Ys8gaQ0SVZ9pQVr8dcAgoTumR8uQdQsuT1Ai9LR1HlE%2BxDi0wl0pt6ZGF0ZGU%3D&X-Amz-Signature=8faab0ae380eaf3abd4b91735d8c3332ad100d71ad34424990f8cf1bd2ea7919&X-Amz-SignedHeaders=host&x-amz-checksum-mode=ENABLED&x-id=GetObject"
+    }
+  ],
+  "signIn": null
+}

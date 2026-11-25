@@ -28,6 +28,10 @@ Thumbs.db
 .vscode/
 .idea/
 
+# TestSprite local artifacts
+.testsprite/
+.claude/
+
 # Temp
 tmp/
 temp/

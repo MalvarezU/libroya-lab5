@@ -27,6 +27,18 @@ Verificaciones adicionales:
 - `npm run build`: PASS (Next.js 16.4.6).
 - `git diff --check`: PASS.
 
+### 2.1 Suite TestSprite
+
+- Proyecto: LibroYa Lab 5 (`d182ce8e-b90b-4605-b2ec-7098f1b3788d`).
+- URL: https://frontend-production-c1fae6c3.up.railway.app
+- Total de casos: **20**.
+- Aprobados: **12**.
+- Fallidos: **0**.
+- Bloqueados: **8**.
+- Evidencia: `docs/testsprite-evidence/`.
+
+Los 8 bloqueados no son defectos funcionales: el runner Free no permite editar `localStorage`, no ofrece un entorno seguro para credenciales de PayPal Sandbox y limita la cuenta de aplicación a un rol por ejecución. Esos flujos se verificaron manualmente y por API (sección 4).
+
 ## 3. Pruebas manuales ejecutadas
 
 | ID | Prueba | Resultado |
@@ -76,10 +88,10 @@ Evidencia de pago (identificadores opacos, sin credenciales):
 
 ## 5. Pendientes de entrega
 
-- [ ] Ejecutar TestSprite contra la URL pública.
-- [ ] Registrar capturas/logs y tasa de éxito de TestSprite.
+- [x] Ejecutar TestSprite contra la URL pública.
+- [x] Registrar capturas/logs y tasa de éxito de TestSprite.
 - [ ] Personalizar la reflexión individual.
 
 ## 6. Decisión de liberación
 
-**Listo para revisión funcional.** Las URLs públicas, HTTPS, CORS, WSS, pagos, envíos y descarga funcionan. Falta únicamente la evidencia de TestSprite y personalizar la reflexión individual.
+**Listo para entrega una vez personalizada la reflexión individual.** Las URLs públicas, HTTPS, CORS, WSS, pagos, envíos, descarga, pruebas automatizadas y evidencia TestSprite están completos. No se detectaron defectos funcionales en los casos ejecutables.

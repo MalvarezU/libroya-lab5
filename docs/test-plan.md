@@ -79,6 +79,9 @@ Resultados de la última ejecución local:
 - WSS desplegado: PASS (evento de estado recibido).
 - Descarga digital desplegada: PASS (200 con entitlement / 403 sin entitlement).
 
-## Pendiente de integración
+## TestSprite ejecutado
 
-- Ejecutar TestSprite contra https://frontend-production-c1fae6c3.up.railway.app y registrar capturas en `docs/informe-resultados.md`.
+- 20 casos creados y ejecutados.
+- 12 PASSED, 0 FAILED, 8 BLOCKED.
+- Evidencia: `docs/testsprite-evidence/`.
+- Los bloqueados se cubrieron con pruebas manuales/API documentadas en `docs/informe-resultados.md`.
