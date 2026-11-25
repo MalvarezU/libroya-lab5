@@ -71,8 +71,14 @@ Resultados de la última ejecución local:
 | F18 | Envíos | Cargar carrier/tracking y ver detalle | Alta |
 | F19 | Entrega digital | Descargar cada e-book de un pedido pagado; verificar carga, error y ausencia de botón sin entitlement | Alta |
 
+## Evidencia desplegada
+
+- Smoke test contra MongoDB Atlas: PASS (idempotencia, rollback, cancelación y stock).
+- PayPal Sandbox: PASS (captura verificada e idempotente).
+- CORS desplegado: PASS (preflight 204 con origen exacto).
+- WSS desplegado: PASS (evento de estado recibido).
+- Descarga digital desplegada: PASS (200 con entitlement / 403 sin entitlement).
+
 ## Pendiente de integración
 
-- Ejecutar el smoke test contra MongoDB para confirmar rollback, construcción de índices y carreras reales.
-- Ejecutar PayPal Sandbox y TestSprite; registrar capturas en `docs/informe-resultados.md`.
-- Validar CORS/WSS y secretos en el entorno desplegado.
+- Ejecutar TestSprite contra https://frontend-production-c1fae6c3.up.railway.app y registrar capturas en `docs/informe-resultados.md`.
