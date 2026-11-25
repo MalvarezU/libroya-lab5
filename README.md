@@ -84,6 +84,7 @@ El laboratorio no recibió archivos comerciales de los libros. El backend genera
 - Arquitectura: `docs/arquitectura.md`
 - Plan de pruebas: `docs/test-plan.md`
 - Casos TestSprite: `docs/testsprite-cases.md`
+- Cuentas demo: `docs/test-accounts.md`
 - Evidencia TestSprite: `docs/testsprite-evidence/`
 - Despliegue: `docs/railway.md`
 - Atlas: `docs/atlas-setup.md`
